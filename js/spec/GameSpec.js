@@ -24,15 +24,20 @@ describe("Game", function() {
   });
 
   describe("#changeState", function() {
-    xit("change's a cell's status from dead to alive", function() {
+    it("change's a cell's status from dead to alive", function() {
       game.changeState(0,0);
-      expect(game.state[0,0]).toBe(1);
+      expect(game.state[0][0]).toBe(1);
     });
 
-    xit("change's a cell's status from alive to dead", function() {
-      game.state[0,0] = 1;
+    it("change's a cell's status from alive to dead", function() {
+      game.state[0][0] = 1;
       game.changeState(0,0);
-      expect(game.state[0,0]).toBe(0);
+      expect(game.state[0][0]).toBe(0);
     });
   });
+
+  
+
+
+  
 });
