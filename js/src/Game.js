@@ -52,6 +52,15 @@ Game.prototype.liveOrDie = function(row, col) {
   return shouldLive;
 };
 
+Game.prototype.step = function() {
+  this.tempClear();
+  for(var i = 0; i < this.rows; i++) {
+    for(var j = 0; j < this.cols; j++) {
+      this.tempState[i][j] = this.liveOrDie(i,j) ? 1 : 0;
+    }
+  }
+  this.state = this.tempState;
+};
 
 
 

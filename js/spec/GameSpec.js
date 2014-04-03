@@ -118,4 +118,43 @@ describe("Game", function() {
     });
   });
 
+  describe("#tempClear", function() {
+    it("clears the tempState array so it can be used for steps", function() {
+      game.tempState[0][0] = 1;
+      game.tempState[2][2] = 1;
+      game.tempState[8][3] = 1;
+      game.tempClear();
+      expect(game.tempState[0][0]).toBe(0);
+      expect(game.tempState[2][2]).toBe(0);
+      expect(game.tempState[8][8]).toBe(0);
+    });
+  });
+
+  describe("#step", function() {
+    it("takes one step in the game", function() {
+      // var game = new Game(3,3);
+      game.state[0][1] = 1;
+      game.state[1][1] = 1;
+      game.state[2][1] = 1;
+
+      game.step();
+      expect(game.state[0][0]).toBe(0);
+      expect(game.state[0][1]).toBe(0);
+      expect(game.state[0][2]).toBe(0);
+      expect(game.state[1][0]).toBe(1);
+      expect(game.state[1][1]).toBe(1);
+      expect(game.state[1][2]).toBe(1);
+      expect(game.state[2][0]).toBe(0);
+      expect(game.state[2][1]).toBe(0);
+      expect(game.state[2][2]).toBe(0);
+    });
+
+    
+  });
+
+
+
+
+
+
 });
