@@ -60,4 +60,62 @@ describe("Game", function() {
     });
   });
 
+  describe("#liveOrDie", function() {
+    it("returns true if a cell is alive and has two live neighbors", function() {
+      game.state[0][1] = 1;
+      game.state[1][0] = 1;
+      game.state[1][1] = 1;
+      expect(game.liveOrDie(1,1)).toBe(true);
+    });
+
+    it("returns false if a cell is dead and has two live neighbors", function() {
+      game.state[0][1] = 1;
+      game.state[1][0] = 1;
+      expect(game.liveOrDie(1,1)).toBe(false);
+    });
+
+    it("returns true if a cell is alive and has three live neighbors", function() {
+      game.state[0][1] = 1;
+      game.state[1][0] = 1;
+      game.state[2][2] = 1;
+      game.state[1][1] = 1;
+      expect(game.liveOrDie(1,1)).toBe(true);
+    });
+
+    it("returns true if a cell is dead and has three live neighbors", function() {
+      game.state[0][1] = 1;
+      game.state[1][0] = 1;
+      game.state[2][2] = 1;
+      expect(game.liveOrDie(1,1)).toBe(true);
+    });
+
+    it("returns false if a cell is alive and has less than two live neighbors", function() {
+      game.state[2][2] = 1;
+      game.state[1][1] = 1;
+      expect(game.liveOrDie(1,1)).toBe(false);
+    });
+
+    it("returns false if a cell is dead and has less than two live neighbors", function() {
+      game.state[2][2] = 1;
+      expect(game.liveOrDie(1,1)).toBe(false);
+    });
+
+    it("returns false if a cell is alive and has more than three live neighbors", function() {
+      game.state[4][4] = 1;
+      game.state[4][6] = 1;
+      game.state[5][5] = 1;
+      game.state[6][4] = 1;
+      game.state[6][6] = 1;
+      expect(game.liveOrDie(5,5)).toBe(false);
+    });
+
+    it("returns false if a cell is dead and has more than three live neighbors", function() {
+      game.state[4][4] = 1;
+      game.state[4][6] = 1;
+      game.state[6][4] = 1;
+      game.state[6][6] = 1;
+      expect(game.liveOrDie(5,5)).toBe(false);
+    });
+  });
+
 });

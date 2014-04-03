@@ -38,3 +38,20 @@ Game.prototype.neighborsAlive = function(row, col) {
   return this.state[row][col] === 1 ? aliveCount-1: aliveCount;
 };
 
+Game.prototype.liveOrDie = function(row, col) {
+  var neighbors = this.neighborsAlive(row, col);
+  var shouldLive;
+  if(neighbors === 3) {
+    shouldLive = true;
+  } else if (neighbors === 2 && this.state[row][col] === 1) {
+    shouldLive = true;
+  } else {
+    shouldLive = false;
+  }
+
+  return shouldLive;
+};
+
+
+
+
