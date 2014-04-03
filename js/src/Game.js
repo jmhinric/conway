@@ -24,6 +24,15 @@ Game.prototype.init = function() {
   }
 };
 
+Game.prototype.tempClear = function() {
+  // Initialize the state as all 0s.
+  for(var i = 0; i < this.rows; i++) {
+    for(var j = 0; j < this.cols; j++) {
+      this.tempState[i][j] = 0;
+    }
+  }
+};
+
 Game.prototype.neighborsAlive = function(row, col) {
   var aliveCount = 0;
   for(var cRow = row-1; cRow <= row+1; cRow++) {
