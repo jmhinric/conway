@@ -25,7 +25,7 @@ Game.prototype.init = function() {
 };
 
 Game.prototype.tempClear = function() {
-  // Initialize the state as all 0s.
+  // Reset the arrays to all 0s.
   for(var i = 0; i < this.rows; i++) {
     for(var j = 0; j < this.cols; j++) {
       this.tempState[i][j] = 0;
@@ -61,14 +61,27 @@ Game.prototype.liveOrDie = function(row, col) {
   return shouldLive;
 };
 
+Game.prototype.updateState = function() {
+  for(var i = 0; i < this.rows; i++) {
+    for(var j = 0; j < this.cols; j++) {
+      this.state[i][j] = this.tempState[i][j];
+    }
+  }
+};
+
 Game.prototype.step = function() {
+  // console.log("State before tempClear: " + this.state);
+  // console.log("Temp before tempClear: " + this.tempState);
   this.tempClear();
+  // console.log("State after: " + this.state);
+  // console.log("Temp after: " + this.tempState);
   for(var i = 0; i < this.rows; i++) {
     for(var j = 0; j < this.cols; j++) {
       this.tempState[i][j] = this.liveOrDie(i,j) ? 1 : 0;
     }
   }
-  this.state = this.tempState;
+  this.updateState();
+  // this.state = this.tempState;
 };
 
 
