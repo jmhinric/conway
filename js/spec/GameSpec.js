@@ -119,7 +119,7 @@ describe("Game", function() {
   });
 
   describe("#tempClear", function() {
-    it("clears the tempState array so it can be used for steps", function() {
+    it("clears the tempState array so it can be used again", function() {
       game.tempState[0][0] = 1;
       game.tempState[2][2] = 1;
       game.tempState[8][3] = 1;
@@ -132,12 +132,11 @@ describe("Game", function() {
 
   describe("#step", function() {
     it("takes one step in the game", function() {
-      // var game = new Game(3,3);
       game.state[0][1] = 1;
       game.state[1][1] = 1;
       game.state[2][1] = 1;
 
-      game.step();
+      game.step(1);
       expect(game.state[0][0]).toBe(0);
       expect(game.state[0][1]).toBe(0);
       expect(game.state[0][2]).toBe(0);
@@ -150,13 +149,11 @@ describe("Game", function() {
     });
 
     it("can be called twice and still work correctly", function() {
-      var game = new Game(3,3);
       game.state[0][1] = 1;
       game.state[1][1] = 1;
       game.state[2][1] = 1;
 
-      game.step();
-      game.step();
+      game.step(2);
       expect(game.state[0][0]).toBe(0);
       expect(game.state[0][1]).toBe(1);
       expect(game.state[0][2]).toBe(0);
@@ -166,6 +163,26 @@ describe("Game", function() {
       expect(game.state[2][0]).toBe(0);
       expect(game.state[2][1]).toBe(1);
       expect(game.state[2][2]).toBe(0);
+    });
+
+    it("works with a known 'glider' state", function() {
+      game.state[1][0] = 1;
+      game.state[2][1] = 1;
+      game.state[2][2] = 1;
+      game.state[0][2] = 1;
+      game.state[1][2] = 1;
+
+      game.step(4);
+      
+      expect(game.state[1][0]).toBe(0);
+      expect(game.state[0][2]).toBe(0);
+      expect(game.state[1][2]).toBe(0);
+      expect(game.state[2][2]).toBe(0);
+      expect(game.state[2][1]).toBe(1);
+      expect(game.state[3][2]).toBe(1);
+      expect(game.state[3][3]).toBe(1);
+      expect(game.state[1][3]).toBe(1);
+      expect(game.state[2][3]).toBe(1);
     });
   });
 });

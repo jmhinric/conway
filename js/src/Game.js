@@ -69,19 +69,16 @@ Game.prototype.updateState = function() {
   }
 };
 
-Game.prototype.step = function() {
-  // console.log("State before tempClear: " + this.state);
-  // console.log("Temp before tempClear: " + this.tempState);
-  this.tempClear();
-  // console.log("State after: " + this.state);
-  // console.log("Temp after: " + this.tempState);
-  for(var i = 0; i < this.rows; i++) {
-    for(var j = 0; j < this.cols; j++) {
-      this.tempState[i][j] = this.liveOrDie(i,j) ? 1 : 0;
+Game.prototype.step = function(steps) {
+  for(var k = 0; k < steps; k++) {
+    this.tempClear();
+    for(var i = 0; i < this.rows; i++) {
+      for(var j = 0; j < this.cols; j++) {
+        this.tempState[i][j] = this.liveOrDie(i,j) ? 1 : 0;
+      }
     }
+    this.updateState();
   }
-  this.updateState();
-  // this.state = this.tempState;
 };
 
 
