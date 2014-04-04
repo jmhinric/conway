@@ -25,15 +25,6 @@ Game.prototype.init = function() {
   }
 };
 
-// Game.prototype.setState = function(cells) {
-//   _.each(cells, function(cell) {
-//     var row = cell[0];
-//     var col = cell[1];
-//     console.log(this);
-//     this.state[row][col] = 1;
-//   });
-// };
-
 Game.prototype.tempClear = function() {
   // Reset the arrays to all 0s.
   for(var i = 0; i < this.rows; i++) {
