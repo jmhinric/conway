@@ -1,0 +1,78 @@
+.page-wrapper {
+  position: relative;
+}
+
+h1 {
+  text-align: center;
+  padding-top: 40px;
+}
+
+.controls {
+  width: 200px;
+  margin: 0 auto;
+  color: white;
+}
+
+button {
+  border-radius: 4px;
+}
+
+.start {
+  display: inline-block;
+  float: left;
+  background: green;
+}
+
+.pause {
+  display: inline-block;
+  background: red;
+}
+
+.clear {
+  display: inline-block;
+  float: right;
+  background: blue;
+}
+
+.history {
+  width: 500px;
+  padding-top: 30px;
+  margin: 0 auto;
+
+  button {
+    background: black;
+    color: white;
+  }
+
+  input {
+    margin: 0 10px 0 8px;
+  }
+}
+
+.step-count {
+  width: 100px;
+  padding-top: 30px;
+  margin: 0 auto;
+}
+
+.board-wrapper {
+  display: inline-block;
+  margin-left: 440px;
+}
+
+.board {
+  padding: 20px 50px 50px 50px;
+}
+
+.cell {
+  display: inline-block;
+  margin-top: -4px;
+  height: 20px;
+  width: 20px;
+  background: rgb(253, 245, 219);
+  border: 1px solid black;
+}
+
+.alive {
+  background: red;
+}

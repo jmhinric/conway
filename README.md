@@ -12,6 +12,7 @@ by John Hinrichs
 * Ruby 2.1.0
 * Ruby on Rails 4.0.2
 * PostgreSQL Database
+* Underscore.js
 
 ### Documentation:
 Full documentation of the process of making Conway can be found on [John's Pivotal Tracker](https://www.pivotaltracker.com/s/projects/1052558)

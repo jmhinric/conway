@@ -185,4 +185,14 @@ describe("Game", function() {
       expect(game.state[2][3]).toBe(1);
     });
   });
+
+  describe("setState", function() {
+    xit("sets an initial state for the game", function() {
+      var cells = [[0,2], [1,2], [2,2], [2,1], [1,0]];
+      game.setState.call(cells);
+      expect(game.state[0][2]).toBe(1);
+      expect(game.state[2][1]).toBe(1);
+    });
+  });
+
 });

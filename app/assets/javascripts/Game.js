@@ -6,6 +6,7 @@ function Game(numRows, numCols) {
 
   this.rows = numRows;
   this.cols = numCols;
+  this.stepCount = 0;
   this.state = [];
   this.tempState = [];
 
@@ -23,6 +24,15 @@ Game.prototype.init = function() {
     }
   }
 };
+
+// Game.prototype.setState = function(cells) {
+//   _.each(cells, function(cell) {
+//     var row = cell[0];
+//     var col = cell[1];
+//     console.log(this);
+//     this.state[row][col] = 1;
+//   });
+// };
 
 Game.prototype.tempClear = function() {
   // Reset the arrays to all 0s.
@@ -71,6 +81,7 @@ Game.prototype.updateState = function() {
 
 Game.prototype.step = function(steps) {
   for(var k = 0; k < steps; k++) {
+    this.stepCount++;
     this.tempClear();
     for(var i = 0; i < this.rows; i++) {
       for(var j = 0; j < this.cols; j++) {

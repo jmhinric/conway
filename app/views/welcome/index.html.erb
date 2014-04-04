@@ -1,13 +1,31 @@
-<h1>Conway's Game of Life Simulator</h1>
+<div class="page-wrapper">
 
-<div class="controls">
-  <button class="start">Start</button>
-  <button class="pause">Pause</button>
-  <button class="clear">Clear</button>
-</div>
+  <h1>Conway's Game of Life Simulator</h1>
 
-<main class="board">
-  <div class="board-wrapper">
-    
+  <div class="controls">
+    <button class="start">Start</button>
+    <button class="pause">Pause</button>
+    <button class="clear">Clear</button>
   </div>
-</main>
+
+  <div class="history">
+    <form>
+      <label>
+        Save that last configuration?
+        <input type="text" name="title" placeholder="Name it...">
+      </label>
+      <button>Save</button>
+    </form>
+  </div>
+
+  <div class='step-count'>
+    <span class='steps'></span>
+  </div>
+
+  <main class="board">
+    <div class="board-wrapper">
+      
+    </div>
+  </main>
+
+</div>

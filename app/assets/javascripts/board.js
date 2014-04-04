@@ -2,7 +2,7 @@ $(document).ready(function() {
   var game;
   var intervalId;
   game = new Game(20,20);
-  
+
   game.state[0][2] = 1;
   game.state[1][2] = 1;
   game.state[2][2] = 1;
@@ -18,6 +18,10 @@ $(document).ready(function() {
     clearInterval(intervalId);
   });
 
+  $(".clear").on("click", function() {
+    render();
+  });
+
   function takeStep() {
     game.step(1);
     render();
@@ -25,6 +29,7 @@ $(document).ready(function() {
 
   function render() {
     $(".board-wrapper").empty();
+    $(".steps").text("Steps: " + game.stepCount);
     for(var row = 0; row < game.rows; row++) {
       for(var col = 0; col < game.cols; col++) {
         var status = game.state[row][col] === 1 ? "alive" : "";
