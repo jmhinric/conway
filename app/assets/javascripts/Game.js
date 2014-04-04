@@ -43,6 +43,15 @@ Game.prototype.tempClear = function() {
   }
 };
 
+Game.prototype.stateClear = function() {
+  // Reset the arrays to all 0s.
+  for(var i = 0; i < this.rows; i++) {
+    for(var j = 0; j < this.cols; j++) {
+      this.state[i][j] = 0;
+    }
+  }
+};
+
 Game.prototype.neighborsAlive = function(row, col) {
   var aliveCount = 0;
   for(var cRow = row-1; cRow <= row+1; cRow++) {

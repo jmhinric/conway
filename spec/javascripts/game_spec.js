@@ -186,6 +186,18 @@ describe("Game", function() {
     });
   });
 
+  describe("#stateClear", function() {
+    it("clears the State array", function() {
+      game.state[0][0] = 1;
+      game.state[2][2] = 1;
+      game.state[8][3] = 1;
+      game.stateClear();
+      expect(game.state[0][0]).toBe(0);
+      expect(game.state[2][2]).toBe(0);
+      expect(game.state[8][8]).toBe(0);
+    });
+  });
+
   describe("setState", function() {
     xit("sets an initial state for the game", function() {
       var cells = [[0,2], [1,2], [2,2], [2,1], [1,0]];

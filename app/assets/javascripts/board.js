@@ -1,13 +1,9 @@
-$(document).ready(function() {
+// $(document).ready(function() {
   var game;
   var intervalId;
   game = new Game(20,20);
 
-  game.state[0][2] = 1;
-  game.state[1][2] = 1;
-  game.state[2][2] = 1;
-  game.state[2][1] = 1;
-  game.state[1][0] = 1;
+  setState();
   render();
 
   $(".start").on("click", function() {
@@ -19,6 +15,9 @@ $(document).ready(function() {
   });
 
   $(".clear").on("click", function() {
+    game.stateClear();
+    game.stepCount = 0;
+    setState();
     render();
   });
 
@@ -49,4 +48,12 @@ $(document).ready(function() {
     }
   }
 
-});
+  function setState() {
+    game.state[0][2] = 1;
+    game.state[1][2] = 1;
+    game.state[2][2] = 1;
+    game.state[2][1] = 1;
+    game.state[1][0] = 1;
+  }
+
+// });

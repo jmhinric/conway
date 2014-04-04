@@ -10,8 +10,9 @@
 
   <%= yield %>
 
-  <script type="text/javascript" src="game.js"></script>
-  <script type="text/javascript" src="board.js"></script>
+  <%= javascript_include_tag "game"%>
+  <%= javascript_include_tag "board"%>
+  
 </body>
 
 </html>
