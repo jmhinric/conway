@@ -10,20 +10,15 @@ function Game(numRows, numCols) {
   this.state = [];
   this.tempState = [];
   this.history = [];
-  // this.t empHistory = [];
+  // this.tempHistory = [];
 
   this.init();
 }
 
 Game.prototype.init = function() {
-  // Initialize the state as all 0s.
   for(var i = 0; i < this.rows; i++) {
     this.state.push(new Array(this.cols));
     this.tempState.push(new Array(this.cols));
-    for(var j = 0; j < this.cols; j++) {
-      this.state[i][j] = 0;
-      this.tempState[i][j] = 0;
-    }
   }
 };
 
@@ -57,6 +52,16 @@ Game.prototype.updateState = function() {
   }
 };
 
+Game.prototype.tempClear = function() {
+  // Reset the arrays to all 0s.
+  for(var i = 0; i < this.rows; i++) {
+    for(var j = 0; j < this.cols; j++) {
+      this.tempState[i][j] = 0;
+      // this.tempHistory[i][j] = 0;
+    }
+  }
+};
+
 Game.prototype.step = function(steps) {
   for(var k = 0; k < steps; k++) {
     this.stepCount++;
@@ -67,17 +72,17 @@ Game.prototype.step = function(steps) {
       }
     }
     this.updateState();
+    this.updateHistory();
   }
 };
 
-Game.prototype.tempClear = function() {
-  // Reset the arrays to all 0s.
-  for(var i = 0; i < this.rows; i++) {
-    for(var j = 0; j < this.cols; j++) {
-      this.tempState[i][j] = 0;
-      // this.tempHistory[i][j] = 0;
-    }
-  }
+Game.prototype.setInitialState = function() {
+  this.state[0][2] = 1;
+  this.state[1][2] = 1;
+  this.state[2][2] = 1;
+  this.state[2][1] = 1;
+  this.state[1][0] = 1;
+  this.updateHistory();
 };
 
 // Reset the state to all 0s.
@@ -91,17 +96,17 @@ Game.prototype.stateClear = function() {
 
 Game.prototype.updateHistory = function() {
   // this.tempClear();
-  // var tempHistory = [[]];
+  var tempHistory = [];
   // var cell;
-  this.history.push(this.state);
-  // for(var i = 0; i < this.rows; i++) {
-  //   for(var j = 0; j < this.cols; j++) {
-  //     // cell = this.state[i][j];
-  //     // console.log()
-  //     this.history[i].push(this.state[i][j]);
-  //   }
-  //   this.history.push([]);
-  // }
+
+  for(var i = 0; i < this.rows; i++) {
+    var row = [];
+    for(var j = 0; j < this.cols; j++) {
+      row.push(this.state[i][j]);
+    }
+    tempHistory.push(row);
+  }
+  this.history.push(tempHistory);
 };
 
 

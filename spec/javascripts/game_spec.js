@@ -17,13 +17,15 @@ describe("Game", function() {
     });
 
     it("sets an empty board based on the rows and columns", function() {
-      expect(game.state[0][0]).toBe(0);
-      expect(game.state[9][9]).toBe(0);
+      expect(game.state[0][0]).toBe(undefined);
+      expect(game.state[9][9]).toBe(undefined);
+      expect(game.state.length).toBe(10);
     });
 
     it("sets an empty temp board based on the rows and columns", function() {
-      expect(game.tempState[0][0]).toBe(0);
-      expect(game.tempState[9][9]).toBe(0);
+      expect(game.tempState[0][0]).toBe(undefined);
+      expect(game.tempState[9][9]).toBe(undefined);
+      expect(game.tempState.length).toBe(10);
     });
 
   });
@@ -199,27 +201,28 @@ describe("Game", function() {
   });
 
   describe("#updateHistory", function() {
-    it("records a step of the board to the game's history", function() {
-      game.state[0][2] = 1;
-      game.state[1][2] = 1;
-      game.state[2][2] = 1;
-      game.state[2][1] = 1;
-      game.state[1][0] = 1;
-      game.updateHistory();
+    it("records the initial state of the board to the game's history", function() {
+      game.setInitialState();
       expect(game.history.length).toBe(1);
     });
 
-    it("records multiple steps of the board to the game's history", function() {
-      game.state[0][2] = 1;
-      game.state[1][2] = 1;
-      game.state[2][2] = 1;
-      game.state[2][1] = 1;
-      game.state[1][0] = 1;
-      game.updateHistory();
+    it("records two steps of the board to the game's history", function() {
+      game.setInitialState();
       game.step(1);
-      game.updateHistory();
       expect(game.history[0][0][2]).toBe(1);
       expect(game.history[1][0][2]).toBe(0);
+    });
+
+    it("records three steps of the board to the game's history", function() {
+      game.setInitialState();
+      game.step(2);
+      expect(game.history[0][0][2]).toBe(1);
+      expect(game.history[1][0][2]).toBe(0);
+      expect(game.history[2][0][2]).toBe(1);
+
+      expect(game.history[0][1][2]).toBe(1);
+      expect(game.history[1][1][2]).toBe(1);
+      expect(game.history[2][1][2]).toBe(0);
     });
   });
 
