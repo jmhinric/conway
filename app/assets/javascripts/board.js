@@ -10,10 +10,13 @@ render();
 
 $(".start").on("click", function() {
   intervalId = setInterval(takeStep, 1000/parseInt(speed));
+  console.log(speed + " , " + 1000/parseInt(speed));
+  $(".start").attr("disabled", true);
 });
 
 $(".pause").on("click", function() {
   clearInterval(intervalId);
+  $(".start").attr("disabled", false);
 });
 
 $(".clear").on("click", function() {

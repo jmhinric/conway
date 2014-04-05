@@ -9,6 +9,8 @@ function Game(numRows, numCols) {
   this.stepCount = 0;
   this.state = [];
   this.tempState = [];
+  this.history = [];
+  // this.t empHistory = [];
 
   this.init();
 }
@@ -73,16 +75,44 @@ Game.prototype.tempClear = function() {
   for(var i = 0; i < this.rows; i++) {
     for(var j = 0; j < this.cols; j++) {
       this.tempState[i][j] = 0;
+      // this.tempHistory[i][j] = 0;
     }
   }
 };
 
+// Reset the state to all 0s.
 Game.prototype.stateClear = function() {
-  // Reset the arrays to all 0s.
   for(var i = 0; i < this.rows; i++) {
     for(var j = 0; j < this.cols; j++) {
       this.state[i][j] = 0;
     }
   }
 };
+
+Game.prototype.updateHistory = function() {
+  // this.tempClear();
+  // var tempHistory = [[]];
+  // var cell;
+  this.history.push(this.state);
+  // for(var i = 0; i < this.rows; i++) {
+  //   for(var j = 0; j < this.cols; j++) {
+  //     // cell = this.state[i][j];
+  //     // console.log()
+  //     this.history[i].push(this.state[i][j]);
+  //   }
+  //   this.history.push([]);
+  // }
+};
+
+
+
+
+
+
+
+
+
+
+
+
 

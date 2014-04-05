@@ -198,4 +198,47 @@ describe("Game", function() {
     });
   });
 
+  describe("#updateHistory", function() {
+    it("records a step of the board to the game's history", function() {
+      game.state[0][2] = 1;
+      game.state[1][2] = 1;
+      game.state[2][2] = 1;
+      game.state[2][1] = 1;
+      game.state[1][0] = 1;
+      game.updateHistory();
+      expect(game.history.length).toBe(1);
+    });
+
+    it("records multiple steps of the board to the game's history", function() {
+      game.state[0][2] = 1;
+      game.state[1][2] = 1;
+      game.state[2][2] = 1;
+      game.state[2][1] = 1;
+      game.state[1][0] = 1;
+      game.updateHistory();
+      game.step(1);
+      game.updateHistory();
+      expect(game.history[0][0][2]).toBe(1);
+      expect(game.history[1][0][2]).toBe(0);
+    });
+  });
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
