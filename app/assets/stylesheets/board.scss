@@ -8,7 +8,7 @@ h1 {
 }
 
 .controls {
-  width: 200px;
+  width: 220px;
   margin: 0 auto;
   color: white;
 }
@@ -34,6 +34,11 @@ button {
   background: blue;
 }
 
+.one-step {
+  display: inline-block;
+  background: grey;
+}
+
 .history {
   width: 500px;
   padding-top: 30px;
@@ -50,9 +55,25 @@ button {
 }
 
 .step-count {
-  width: 100px;
+  width: 400px;
   padding-top: 30px;
   margin: 0 auto;
+
+  input {
+    width: 50px;
+  }
+}
+
+span.speed {
+  padding-left: 27px;
+}
+
+.speed {
+  display: inline-block;
+}
+
+.steps {
+  padding-left: 10px;
 }
 
 .board-wrapper {

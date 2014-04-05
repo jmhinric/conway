@@ -1,12 +1,15 @@
 var game;
 var intervalId;
-game = new Game(20,20);
+var speed;
+var boardRows = 20;
+var boardCols = 20;
+game = new Game(boardRows, boardCols);
 
 setState();
 render();
 
 $(".start").on("click", function() {
-  intervalId = setInterval(takeStep, 100);
+  intervalId = setInterval(takeStep, 1000/parseInt(speed));
 });
 
 $(".pause").on("click", function() {
@@ -14,10 +17,22 @@ $(".pause").on("click", function() {
 });
 
 $(".clear").on("click", function() {
-  game.stateClear();
-  game.stepCount = 0;
+  // game.stateClear();
+  // game.stepCount = 0;
+  clearInterval(intervalId);
+  game = new Game(boardRows, boardCols);
   setState();
   render();
+});
+
+$(".one-step").on("click", function() {
+  game.step(1);
+  render();
+});
+
+$("input.speed").on("keyup", function(e) {
+  console.log($("input.speed").val());
+  speed = $("input.speed").val();
 });
 
 function takeStep() {
@@ -48,7 +63,7 @@ function createCell(row, col) {
         var cellCol = this.id.split("-")[1];
         game.state[cellRow][cellCol] = game.state[cellRow][cellCol] === 1 ? 0 : 1;
       });
-  cell.appendTo(".board-wrapper");    
+  cell.appendTo(".board-wrapper");
 }
 
 function setState() {

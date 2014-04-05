@@ -10,7 +10,7 @@ describe "user can start a game", :js => true do
     click_button("Start")
     Capybara.default_wait_time = 3
     click_button("Pause")
-    expect(".steps").to have_content "Steps: "
+    expect(".steps").to have_content "Steps: 1"
   end
 
 end

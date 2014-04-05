@@ -25,24 +25,6 @@ Game.prototype.init = function() {
   }
 };
 
-Game.prototype.tempClear = function() {
-  // Reset the arrays to all 0s.
-  for(var i = 0; i < this.rows; i++) {
-    for(var j = 0; j < this.cols; j++) {
-      this.tempState[i][j] = 0;
-    }
-  }
-};
-
-Game.prototype.stateClear = function() {
-  // Reset the arrays to all 0s.
-  for(var i = 0; i < this.rows; i++) {
-    for(var j = 0; j < this.cols; j++) {
-      this.state[i][j] = 0;
-    }
-  }
-};
-
 Game.prototype.neighborsAlive = function(row, col) {
   var aliveCount = 0;
   for(var cRow = row-1; cRow <= row+1; cRow++) {
@@ -60,14 +42,8 @@ Game.prototype.neighborsAlive = function(row, col) {
 Game.prototype.liveOrDie = function(row, col) {
   var neighbors = this.neighborsAlive(row, col);
   var shouldLive;
-  if(neighbors === 3) {
-    shouldLive = true;
-  } else if (neighbors === 2 && this.state[row][col] === 1) {
-    shouldLive = true;
-  } else {
-    shouldLive = false;
-  }
-
+  shouldLive = neighbors === 3 ? true
+    : (neighbors === 2 && this.state[row][col] === 1) ? true : false;
   return shouldLive;
 };
 
@@ -92,5 +68,21 @@ Game.prototype.step = function(steps) {
   }
 };
 
+Game.prototype.tempClear = function() {
+  // Reset the arrays to all 0s.
+  for(var i = 0; i < this.rows; i++) {
+    for(var j = 0; j < this.cols; j++) {
+      this.tempState[i][j] = 0;
+    }
+  }
+};
 
+Game.prototype.stateClear = function() {
+  // Reset the arrays to all 0s.
+  for(var i = 0; i < this.rows; i++) {
+    for(var j = 0; j < this.cols; j++) {
+      this.state[i][j] = 0;
+    }
+  }
+};
 
