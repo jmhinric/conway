@@ -14,6 +14,6 @@
 //= require jquery_ujs
 //= require underscore
 //= require turbolinks
-//= require game.js
-//= require board.js
+//= require game
+//= require ui
 //= require_tree .
