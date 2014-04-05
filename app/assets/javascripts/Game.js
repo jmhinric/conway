@@ -105,9 +105,7 @@ Game.prototype.stateClear = function() {
 };
 
 Game.prototype.updateHistory = function() {
-  // this.tempClear();
   var tempHistory = [];
-  // var cell;
 
   for(var i = 0; i < this.rows; i++) {
     var row = [];
