@@ -109,7 +109,15 @@ Game.prototype.updateHistory = function() {
   this.history.push(tempHistory);
 };
 
-
+Game.prototype.stepBack = function(steps) {
+  for(var i = 0; i < this.rows; i++) {
+    for(var j = 0; j < this.cols; j++) {
+      this.state[i][j] = this.history[this.stepCount-steps][i][j];
+    }
+  }
+  this.stepCount--;
+  this.history.pop();
+};
 
 
 

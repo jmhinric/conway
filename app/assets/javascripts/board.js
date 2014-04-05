@@ -27,6 +27,11 @@ $(".one-step").on("click", function() {
   render();
 });
 
+$(".step-back").on("click", function() {
+  game.stepBack(1);
+  render();
+});
+
 $("input.speed").on("keyup", function(e) {
   console.log($("input.speed").val());
   speed = $("input.speed").val();

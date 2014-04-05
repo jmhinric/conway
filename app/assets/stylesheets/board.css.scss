@@ -8,7 +8,7 @@ h1 {
 }
 
 .controls {
-  width: 220px;
+  width: 250px;
   margin: 0 auto;
   color: white;
 }
@@ -37,6 +37,11 @@ button {
 .one-step {
   display: inline-block;
   background: grey;
+}
+
+.step-back {
+  display: inline-block;
+  background: light-grey;
 }
 
 .history {

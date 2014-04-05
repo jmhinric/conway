@@ -226,6 +226,45 @@ describe("Game", function() {
     });
   });
 
+  describe("#stepBack", function() {
+    it("takes one step back in the game's history", function() {
+      game.setInitialState();
+      game.step(2);
+      game.stepBack(1);
+      expect(game.state[0][1]).toBe(1);
+      expect(game.state[1][2]).toBe(1);
+      expect(game.state[1][3]).toBe(1);
+      expect(game.state[2][1]).toBe(1);
+      expect(game.state[2][2]).toBe(1);
+    });
+
+    it("takes three steps back in the game's history", function() {
+      game.setInitialState();
+      game.step(3);
+      game.stepBack(3);
+      expect(game.state[0][2]).toBe(1);
+      expect(game.state[1][2]).toBe(1);
+      expect(game.state[2][2]).toBe(1);
+      expect(game.state[2][1]).toBe(1);
+      expect(game.state[1][0]).toBe(1);
+    });
+
+    it("updates the game's step counter", function() {
+      game.setInitialState();
+      game.step(2);
+      expect(game.stepCount).toBe(2);
+      game.stepBack(1);
+      expect(game.stepCount).toBe(1);
+    });
+
+    it("erases the game's history as it steps back", function() {
+      game.setInitialState();
+      game.step(2);
+      expect(game.history.length).toBe(3);
+      game.stepBack(1);
+      expect(game.history.length).toBe(2);
+    });
+  });
 });
 
 
