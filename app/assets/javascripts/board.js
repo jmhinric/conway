@@ -9,26 +9,55 @@ game.setInitialState();
 render();
 
 $(".start").on("click", function() {
-  intervalId = setInterval(takeStep, 1000/parseInt(speed));
+  if (!game.gameStarted) { game.updateHistory(); }
+  game.gameStarted = true;
+
+  clearInterval(intervalId);
   $(".start").attr("disabled", true);
+  $(".reverse").attr("disabled", false);
+
+  intervalId = setInterval(takeStep, 1000/parseInt(speed));
+});
+
+$(".reverse").on("click", function() {
+  if (game.stepCount > 0) {
+    
+    clearInterval(intervalId);
+    $(".reverse").attr("disabled", true);
+    $(".start").attr("disabled", false);
+    $(".step-back").attr("disabled", false);
+
+    intervalId = setInterval(takeStepBack, 1000/parseInt(speed));
+  }
 });
 
 $(".pause").on("click", stopTimer);
 
-$(".clear").on("click", function() {
-  stopTimer();
-  game = new Game(boardRows, boardCols);
-  game.setInitialState();
-  render();
-});
-
 $(".one-step").on("click", function() {
+  if (!game.gameStarted) { game.updateHistory(); }
+  game.gameStarted = true;
+
+  clearInterval(intervalId);
+  $(".reverse").attr("disabled", false);
+  $(".step-back").attr("disabled", false);
+  
   game.step(1);
   render();
 });
 
 $(".step-back").on("click", function() {
-  game.stepBack(1);
+  if (game.stepCount > 0) {
+    clearInterval(intervalId);
+    
+    game.stepBack(1);
+    render();
+  }
+});
+
+$(".clear").on("click", function() {
+  stopTimer();
+  game = new Game(boardRows, boardCols);
+  game.setInitialState();
   render();
 });
 
@@ -42,9 +71,22 @@ function takeStep() {
   render();
 }
 
+function takeStepBack() {
+  if (game.stepCount === 0) {
+    clearInterval(intervalId);
+    $(".reverse").attr("disabled", true);
+    $(".step-back").attr("disabled", true);
+  }
+  game.stepBack(1);
+  render();
+}
+
 function stopTimer() {
   clearInterval(intervalId);
   $(".start").attr("disabled", false);
+  $(".reverse").attr("disabled", false);
+  $(".one-step").attr("disabled", false);
+  $(".step-back").attr("disabled", false);
 }
 
 function render() {

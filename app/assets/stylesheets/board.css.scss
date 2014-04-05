@@ -8,7 +8,7 @@ h1 {
 }
 
 .controls {
-  width: 250px;
+  width: 350px;
   margin: 0 auto;
   color: white;
 }
@@ -21,6 +21,11 @@ button {
   display: inline-block;
   float: left;
   background: green;
+}
+
+.reverse {
+  display: inline-block;
+  background: orange;
 }
 
 .pause {
