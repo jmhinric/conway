@@ -3,10 +3,8 @@ var intervalId;
 var speed;
 var boardRows = 20;
 var boardCols = 20;
-game = new Game(boardRows, boardCols);
 
-game.setInitialState();
-render();
+newGame();
 
 $(".start").on("click", function() {
   if (!game.gameStarted) { game.updateHistory(); }
@@ -57,9 +55,7 @@ $(".pause").on("click", stopTimer);
 
 $(".clear").on("click", function() {
   stopTimer();
-  game = new Game(boardRows, boardCols);
-  game.setInitialState();
-  render();
+  newGame();
 });
 
 $(".board-size").submit(function(e) {
@@ -68,9 +64,10 @@ $(".board-size").submit(function(e) {
   boardCols = $("input[name = num-cols]").val();
   $("input").val('').blur();
 
-  game = new Game(boardRows, boardCols);
-  game.setInitialState();
-  render();
+  var width = parseInt(boardRows) * 22 + 20;
+  $(".board").css({"width": width});
+
+  newGame();
 });
 
 $("input.speed").on("keyup", function() {
@@ -102,6 +99,12 @@ function stopTimer() {
   $(".reverse").attr("disabled", false);
   $(".step-forward").attr("disabled", false);
   $(".step-back").attr("disabled", false);
+}
+
+function newGame() {
+  game = new Game(boardRows, boardCols);
+  game.setInitialState();
+  render();
 }
 
 function render() {
