@@ -17,14 +17,14 @@ describe("Game", function() {
     });
 
     it("sets an empty board based on the rows and columns", function() {
-      expect(game.state[0][0]).toBe(undefined);
-      expect(game.state[9][9]).toBe(undefined);
+      expect(game.state[0][0]).toBe(0);
+      expect(game.state[9][9]).toBe(0);
       expect(game.state.length).toBe(10);
     });
 
     it("sets an empty temp board based on the rows and columns", function() {
-      expect(game.tempState[0][0]).toBe(undefined);
-      expect(game.tempState[9][9]).toBe(undefined);
+      expect(game.tempState[0][0]).toBe(0);
+      expect(game.tempState[9][9]).toBe(0);
       expect(game.tempState.length).toBe(10);
     });
 
@@ -203,12 +203,14 @@ describe("Game", function() {
   describe("#updateHistory", function() {
     it("records the initial state of the board to the game's history", function() {
       game.setInitialState();
+      game.updateHistory();
       game.step(1);
-      expect(game.history.length).toBe(1);
+      expect(game.history.length).toBe(2);
     });
 
     it("records two steps of the board to the game's history", function() {
       game.setInitialState();
+      game.updateHistory();
       game.step(2);
       expect(game.history[0][0][2]).toBe(1);
       expect(game.history[1][0][2]).toBe(0);
@@ -216,6 +218,7 @@ describe("Game", function() {
 
     it("records three steps of the board to the game's history", function() {
       game.setInitialState();
+      game.updateHistory();
       game.step(3);
       expect(game.history[0][0][2]).toBe(1);
       expect(game.history[1][0][2]).toBe(0);
@@ -225,11 +228,21 @@ describe("Game", function() {
       expect(game.history[1][1][2]).toBe(1);
       expect(game.history[2][1][2]).toBe(0);
     });
+
+    it("records three steps of the board to the game's stringHistory", function() {
+      game = new Game(3,3);
+      game.setInitialState();
+      game.updateHistory();
+      game.step(3);
+      expect(game.stringHistory[0]).toBe("001101011");
+      expect(game.stringHistory.length).toBe(4);
+    });
   });
 
   describe("#stepBack", function() {
     it("takes one step back in the game's history", function() {
       game.setInitialState();
+      game.updateHistory();
       game.step(2);
       game.stepBack(1);
       expect(game.state[0][1]).toBe(1);
@@ -241,6 +254,7 @@ describe("Game", function() {
 
     it("takes three steps back in the game's history", function() {
       game.setInitialState();
+      game.updateHistory();
       game.step(3);
       game.stepBack(3);
       expect(game.state[0][2]).toBe(1);
@@ -265,14 +279,59 @@ describe("Game", function() {
       game.stepBack(1);
       expect(game.history.length).toBe(1);
     });
+
+    it("erases the game's string history as it steps back", function() {
+      game.setInitialState();
+      game.step(2);
+      expect(game.stringHistory.length).toBe(2);
+      game.stepBack(1);
+      expect(game.stringHistory.length).toBe(1);
+    });
   });
 
-  describe("stillLifeTest", function() {
-    it("stops the game if it consists only of 'still life objects'", function() {
+  describe("saveUserChanges", function() {
+    it("saves states of the game the user creates", function() {
+      game.setInitialState();
+      game.updateHistory();
+      game.step(2);
+      game.state[2][4] = 1;
+      game.state[2][5] = 1;
+      game.state[3][5] = 1;
+      game.userChanged = true;
+      game.step(2);
+      expect(game.userStates[0][2][4]).toBe(1);
+      expect(game.userStates[0][2][5]).toBe(1);
+      expect(game.userStates[0][3][5]).toBe(1);
+    });
+
+    it("saves states of the game the user creates after having taken steps", function() {
+      game.setInitialState();
+      game.updateHistory();
+      game.step(2);
+      game.state[2][4] = 1;
+      game.state[2][5] = 1;
+      game.state[3][5] = 1;
+      game.userChanged = true;
+      game.step(2);
+      game.userChanged = true;
+      game.step(1);
+      expect(game.userStates.length).toBe(2);
+    });
+  });
+
+  describe("stillLife", function() {
+    it("tests to ensure the game does not consist only of 'still life objects'", function() {
       game.state[0][0] = 1;
       game.state[0][1] = 1;
       game.state[1][0] = 1;
-      game.step(2);
+      game.updateHistory();
+      game.step(3);
+      console.log(game.history);
+      expect(game.history.length).toBe(3);
+    });
+
+    xit("allows the game to step if the user has changed the board from being a still life object", function() {
+
     });
   });
 });

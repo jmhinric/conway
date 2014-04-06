@@ -9,7 +9,7 @@ game.setInitialState();
 render();
 
 $(".start").on("click", function() {
-  // if (!game.gameStarted) { game.updateHistory(); }
+  if (!game.gameStarted) { game.updateHistory(); }
   game.gameStarted = true;
 
   clearInterval(intervalId);
@@ -20,6 +20,7 @@ $(".start").on("click", function() {
 });
 
 $(".reverse").on("click", function() {
+  // Can't click reverse if stepCount is 0
   if (game.stepCount > 0) {
     
     clearInterval(intervalId);
@@ -31,10 +32,9 @@ $(".reverse").on("click", function() {
   }
 });
 
-$(".pause").on("click", stopTimer);
 
 $(".one-step").on("click", function() {
-  // if (!game.gameStarted) { game.updateHistory(); }
+  if (!game.gameStarted) { game.updateHistory(); }
   game.gameStarted = true;
 
   clearInterval(intervalId);
@@ -53,6 +53,8 @@ $(".step-back").on("click", function() {
     render();
   }
 });
+
+$(".pause").on("click", stopTimer);
 
 $(".clear").on("click", function() {
   stopTimer();
@@ -106,6 +108,7 @@ function createCell(row, col) {
       .addClass(status)
       .attr("id", row + "-" + col)
       .on("click", function() {
+        game.userChanged = true;
         $(this).toggleClass("alive");
         var cellRow = this.id.split("-")[0];
         var cellCol = this.id.split("-")[1];

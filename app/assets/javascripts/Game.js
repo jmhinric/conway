@@ -8,10 +8,13 @@ function Game(numRows, numCols) {
   this.cols = numCols;
   this.stepCount = 0;
   this.gameStarted = false;
+  this.userChanged = false;
 
   this.state = [];
   this.tempState = [];
   this.history = [];
+  this.stringHistory = [];
+  this.userStates = [];
 
   this.init();
 }
@@ -20,6 +23,10 @@ Game.prototype.init = function() {
   for(var i = 0; i < this.rows; i++) {
     this.state.push(new Array(this.cols));
     this.tempState.push(new Array(this.cols));
+    for(var j = 0; j < this.cols; j++) {
+      this.state[i][j] = 0;
+      this.tempState[i][j] = 0;
+    }
   }
 };
 
@@ -63,16 +70,19 @@ Game.prototype.tempClear = function() {
 };
 
 Game.prototype.step = function(steps) {
-  for(var k = 0; k < steps; k++) {
-    this.updateHistory();
-    this.stepCount++;
-    this.tempClear();
-    for(var i = 0; i < this.rows; i++) {
-      for(var j = 0; j < this.cols; j++) {
-        this.tempState[i][j] = this.liveOrDie(i,j) ? 1 : 0;
+  if(this.stepCount === 0 || !this.stillLife()) {
+    if(this.userChanged) { this.saveUserChanges(); }
+    for(var k = 0; k < steps; k++) {
+      this.stepCount++;
+      this.tempClear();
+      for(var i = 0; i < this.rows; i++) {
+        for(var j = 0; j < this.cols; j++) {
+          this.tempState[i][j] = this.liveOrDie(i,j) ? 1 : 0;
+        }
       }
+      this.updateState();
+      this.updateHistory();
     }
-    this.updateState();
   }
 };
 
@@ -84,6 +94,7 @@ Game.prototype.stepBack = function(steps) {
   }
   this.stepCount -= steps;
   this.history.pop();
+  this.stringHistory.pop();
 };
 
 Game.prototype.setInitialState = function() {
@@ -105,19 +116,47 @@ Game.prototype.stateClear = function() {
 
 Game.prototype.updateHistory = function() {
   var tempHistory = [];
+  var tempString = "";
+
+  for(var i = 0; i < this.rows; i++) {
+    var row = [];
+    for(var j = 0; j < this.cols; j++) {
+      row.push(this.state[i][j]);
+      tempString += this.state[i][j];
+    }
+    tempHistory.push(row);
+  }
+  this.history.push(tempHistory);
+  this.stringHistory.push(tempString);
+};
+
+Game.prototype.saveUserChanges = function() {
+  var temp = [];
 
   for(var i = 0; i < this.rows; i++) {
     var row = [];
     for(var j = 0; j < this.cols; j++) {
       row.push(this.state[i][j]);
     }
-    tempHistory.push(row);
+    temp.push(row);
   }
-  this.history.push(tempHistory);
+  this.userStates.push(temp);
+  this.userChanged = false;
 };
 
+Game.prototype.stillLife = function() {
+  var strHi = this.stringHistory;
+  return (strHi[strHi.length - 1] === strHi[strHi.length - 2]);
+  // return this.userChanged || !(strHi[strHi.length - 1] === strHi[strHi.length - 2]);
+};
 
-
+// Game.prototype.oscillates = function () {
+  // var strHi = this.stringHistory;
+  // var size = this.stringHistory.filter(function(val) {
+  //   return strHi[strHi.length - 1] === val;
+  // });
+  // return size.length <= 1;
+// };
 
 
 
