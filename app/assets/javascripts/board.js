@@ -9,7 +9,7 @@ game.setInitialState();
 render();
 
 $(".start").on("click", function() {
-  if (!game.gameStarted) { game.updateHistory(); }
+  // if (!game.gameStarted) { game.updateHistory(); }
   game.gameStarted = true;
 
   clearInterval(intervalId);
@@ -34,7 +34,7 @@ $(".reverse").on("click", function() {
 $(".pause").on("click", stopTimer);
 
 $(".one-step").on("click", function() {
-  if (!game.gameStarted) { game.updateHistory(); }
+  // if (!game.gameStarted) { game.updateHistory(); }
   game.gameStarted = true;
 
   clearInterval(intervalId);
@@ -62,7 +62,6 @@ $(".clear").on("click", function() {
 });
 
 $("input.speed").on("keyup", function(e) {
-  console.log($("input.speed").val());
   speed = $("input.speed").val();
 });
 

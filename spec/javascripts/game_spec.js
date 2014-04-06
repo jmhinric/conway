@@ -203,19 +203,20 @@ describe("Game", function() {
   describe("#updateHistory", function() {
     it("records the initial state of the board to the game's history", function() {
       game.setInitialState();
+      game.step(1);
       expect(game.history.length).toBe(1);
     });
 
     it("records two steps of the board to the game's history", function() {
       game.setInitialState();
-      game.step(1);
+      game.step(2);
       expect(game.history[0][0][2]).toBe(1);
       expect(game.history[1][0][2]).toBe(0);
     });
 
     it("records three steps of the board to the game's history", function() {
       game.setInitialState();
-      game.step(2);
+      game.step(3);
       expect(game.history[0][0][2]).toBe(1);
       expect(game.history[1][0][2]).toBe(0);
       expect(game.history[2][0][2]).toBe(1);
@@ -251,18 +252,27 @@ describe("Game", function() {
 
     it("updates the game's step counter", function() {
       game.setInitialState();
-      game.step(2);
-      expect(game.stepCount).toBe(2);
-      game.stepBack(1);
+      game.step(4);
+      expect(game.stepCount).toBe(4);
+      game.stepBack(3);
       expect(game.stepCount).toBe(1);
     });
 
     it("erases the game's history as it steps back", function() {
       game.setInitialState();
       game.step(2);
-      expect(game.history.length).toBe(3);
-      game.stepBack(1);
       expect(game.history.length).toBe(2);
+      game.stepBack(1);
+      expect(game.history.length).toBe(1);
+    });
+  });
+
+  describe("stillLifeTest", function() {
+    it("stops the game if it consists only of 'still life objects'", function() {
+      game.state[0][0] = 1;
+      game.state[0][1] = 1;
+      game.state[1][0] = 1;
+      game.step(2);
     });
   });
 });

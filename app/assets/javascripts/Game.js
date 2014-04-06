@@ -58,13 +58,13 @@ Game.prototype.tempClear = function() {
   for(var i = 0; i < this.rows; i++) {
     for(var j = 0; j < this.cols; j++) {
       this.tempState[i][j] = 0;
-      // this.tempHistory[i][j] = 0;
     }
   }
 };
 
 Game.prototype.step = function(steps) {
   for(var k = 0; k < steps; k++) {
+    this.updateHistory();
     this.stepCount++;
     this.tempClear();
     for(var i = 0; i < this.rows; i++) {
@@ -73,7 +73,6 @@ Game.prototype.step = function(steps) {
       }
     }
     this.updateState();
-    this.updateHistory();
   }
 };
 
@@ -83,7 +82,7 @@ Game.prototype.stepBack = function(steps) {
       this.state[i][j] = this.history[this.stepCount-steps][i][j];
     }
   }
-  this.stepCount--;
+  this.stepCount -= steps;
   this.history.pop();
 };
 
