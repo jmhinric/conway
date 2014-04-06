@@ -21,7 +21,16 @@
     </form>
   </div>
 
-  <div class='step-count'>
+  <div class='board-specs'>
+    <form class="board-size">
+      <label>
+        Board size:
+        <input type="text" name="num-rows">
+        <input type="text" name="num-cols">
+      </label>
+      <button class="submit-board">Set</button>
+    </form>
+
     <span class="speed">Speed (steps/sec):</span>
     <input class="speed" type="text">
     <span class='steps'></span>
@@ -29,7 +38,6 @@
 
   <main class="board">
     <div class="board-wrapper">
-      
     </div>
   </main>
 

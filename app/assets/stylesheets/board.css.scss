@@ -4,7 +4,7 @@
 
 h1 {
   text-align: center;
-  padding-top: 40px;
+  padding-top: 20px;
 }
 
 .controls {
@@ -64,13 +64,22 @@ button {
   }
 }
 
-.step-count {
-  width: 400px;
+.board-specs {
+  width: 500px;
   padding-top: 30px;
   margin: 0 auto;
 
   input {
-    width: 50px;
+    width: 30px;
+  }
+}
+
+.board-size {
+  display: inline-block;
+  
+  button {
+    color: white;
+    background: purple;
   }
 }
 
@@ -86,14 +95,18 @@ span.speed {
   padding-left: 10px;
 }
 
-.board-wrapper {
-  display: inline-block;
-  margin-left: 440px;
-}
-
 .board {
   padding: 20px 50px 50px 50px;
+  width: 670px;
+  margin: 0 auto;
 }
+
+.board-wrapper {
+  display: inline-block;
+  /*margin-left: 440px;*/
+  /*margin: 0 auto;*/
+}
+
 
 .cell {
   display: inline-block;

@@ -62,7 +62,18 @@ $(".clear").on("click", function() {
   render();
 });
 
-$("input.speed").on("keyup", function(e) {
+$(".board-size").submit(function(e) {
+  e.preventDefault();
+  boardRows = $("input[name = num-rows]").val();
+  boardCols = $("input[name = num-cols]").val();
+  $("input").val('').blur();
+
+  game = new Game(boardRows, boardCols);
+  game.setInitialState();
+  render();
+});
+
+$("input.speed").on("keyup", function() {
   speed = $("input.speed").val();
 });
 
