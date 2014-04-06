@@ -19,6 +19,18 @@ $(".start").on("click", function() {
   intervalId = setInterval(takeStep, 1000/parseInt(speed));
 });
 
+$(".step-forward").on("click", function() {
+  if (!game.gameStarted) { game.updateHistory(); }
+  game.gameStarted = true;
+
+  clearInterval(intervalId);
+  $(".reverse").attr("disabled", false);
+  $(".step-back").attr("disabled", false);
+  
+  game.step(1);
+  render();
+});
+
 $(".reverse").on("click", function() {
   // Can't click reverse if stepCount is 0
   if (game.stepCount > 0) {
@@ -30,19 +42,6 @@ $(".reverse").on("click", function() {
 
     intervalId = setInterval(takeStepBack, 1000/parseInt(speed));
   }
-});
-
-
-$(".one-step").on("click", function() {
-  if (!game.gameStarted) { game.updateHistory(); }
-  game.gameStarted = true;
-
-  clearInterval(intervalId);
-  $(".reverse").attr("disabled", false);
-  $(".step-back").attr("disabled", false);
-  
-  game.step(1);
-  render();
 });
 
 $(".step-back").on("click", function() {
@@ -68,6 +67,10 @@ $("input.speed").on("keyup", function(e) {
 });
 
 function takeStep() {
+  if (game.stillLife()) {
+    clearInterval(intervalId);
+    $(".start").attr("disabled", false);
+  }
   game.step(1);
   render();
 }
@@ -86,7 +89,7 @@ function stopTimer() {
   clearInterval(intervalId);
   $(".start").attr("disabled", false);
   $(".reverse").attr("disabled", false);
-  $(".one-step").attr("disabled", false);
+  $(".step-forward").attr("disabled", false);
   $(".step-back").attr("disabled", false);
 }
 

@@ -15,6 +15,7 @@ function Game(numRows, numCols) {
   this.history = [];
   this.stringHistory = [];
   this.userStates = [];
+  this.userStringStates = [];
 
   this.init();
 }
@@ -70,7 +71,7 @@ Game.prototype.tempClear = function() {
 };
 
 Game.prototype.step = function(steps) {
-  if(this.stepCount === 0 || !this.stillLife()) {
+  if(this.stepCount === 0 || !this.stillLife() || this.userChanged) {
     if(this.userChanged) { this.saveUserChanges(); }
     for(var k = 0; k < steps; k++) {
       this.stepCount++;
@@ -132,14 +133,19 @@ Game.prototype.updateHistory = function() {
 
 Game.prototype.saveUserChanges = function() {
   var temp = [];
+  var tempString = "";
 
   for(var i = 0; i < this.rows; i++) {
     var row = [];
     for(var j = 0; j < this.cols; j++) {
       row.push(this.state[i][j]);
+      if (this.state[i][j] === 1) {
+        tempString += i + "-" + j + "/";
+      }
     }
     temp.push(row);
   }
+  this.userStringStates.push(tempString);
   this.userStates.push(temp);
   this.userChanged = false;
 };
@@ -156,6 +162,8 @@ Game.prototype.stillLife = function() {
   //   return strHi[strHi.length - 1] === val;
   // });
   // return size.length <= 1;
+  // This is the test for oscillating:
+  // return size.length > 1 && strHi[strHi.length - 1] != strHi[strHi.length - 2];
 // };
 
 
