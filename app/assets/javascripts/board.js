@@ -117,14 +117,16 @@ function createCell(row, col, state, cellClass, appendToEl) {
   var cell = $("<div>");
   cell.addClass(cellClass)
       .addClass(status)
-      .attr("id", row + "-" + col)
-      .on("click", function() {
-        game.userChanged = true;
-        $(this).toggleClass("alive");
-        var cellRow = this.id.split("-")[0];
-        var cellCol = this.id.split("-")[1];
-        state[cellRow][cellCol] = state[cellRow][cellCol] === 1 ? 0 : 1;
-      });
+      .attr("id", row + "-" + col);
+  if (cellClass === "cell") {
+    cell.on("click", function() {
+      game.userChanged = true;
+      $(this).toggleClass("alive");
+      var cellRow = this.id.split("-")[0];
+      var cellCol = this.id.split("-")[1];
+      state[cellRow][cellCol] = state[cellRow][cellCol] === 1 ? 0 : 1;
+    });
+  }
   cell.appendTo(appendToEl);
 }
 
@@ -149,8 +151,8 @@ function renderSavedState() {
     }
     $("<br>").appendTo(newDiv);
   }
-  newDiv.appendTo(".temp-states");
-  $("<br>").appendTo(".temp-states");
-  $("<br>").appendTo(".temp-states");
+  $("<br>").appendTo(newDiv);
+  $(".temp-states").prepend(newDiv);
+  // $("<br>").appendTo(".temp-states");
 }
 
