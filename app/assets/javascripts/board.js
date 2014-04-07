@@ -75,10 +75,11 @@ $("input.speed").on("keyup", function() {
 });
 
 function takeStep() {
-  if (game.stillLife()) {
+  if (game.gameOver) {
     clearInterval(intervalId);
     $(".start").attr("disabled", false);
   }
+  console.log("Stepping...");
   game.step(1);
   render();
 }

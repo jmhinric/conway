@@ -9,6 +9,7 @@ function Game(numRows, numCols) {
   this.stepCount = 0;
   this.gameStarted = false;
   this.userChanged = false;
+  this.gameOver = false;
 
   this.state = [];
   this.tempState = [];
@@ -152,7 +153,8 @@ Game.prototype.saveUserChanges = function() {
 
 Game.prototype.stillLife = function() {
   var strHi = this.stringHistory;
-  return (strHi[strHi.length - 1] === strHi[strHi.length - 2]);
+  this.gameOver = (strHi[strHi.length - 1] === strHi[strHi.length - 2]);
+  return this.gameOver;
   // return this.userChanged || !(strHi[strHi.length - 1] === strHi[strHi.length - 2]);
 };
 

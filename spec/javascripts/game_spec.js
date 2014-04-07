@@ -319,6 +319,7 @@ describe("Game", function() {
     });
   });
 
+  // These tests maybe belong under "#step" ???
   describe("stillLife", function() {
     it("tests to ensure the game does not consist only of 'still life objects'", function() {
       game.state[0][0] = 1;
@@ -329,12 +330,19 @@ describe("Game", function() {
       console.log(game.history);
       console.log("Steps: " + game.stepCount);
       console.log("History length: " + game.history.length);
-      // expect(game.history.length).toBe(3);
+      expect(game.history.length).toBe(3);
       expect(game.stepCount).toBe(2);
     });
 
-    xit("allows the game to step if the user has changed the board from being a still life object", function() {
-
+    it("allows the game to step if the user has changed the board from being a still life object", function() {
+      game.state[0][0] = 1;
+      game.state[0][1] = 1;
+      game.state[1][0] = 1;
+      game.step(3);
+      game.state[1][2] = 1;
+      game.userChanged = true;
+      game.step(1);
+      expect(game.stepCount).toBe(3);
     });
   });
 });
