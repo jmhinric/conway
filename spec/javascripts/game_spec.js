@@ -298,6 +298,7 @@ describe("Game", function() {
       game.state[2][5] = 1;
       game.state[3][5] = 1;
       game.userChanged = true;
+      game.saveUserChanges();
       game.step(2);
       expect(game.userStates[0][2][4]).toBe(1);
       expect(game.userStates[0][2][5]).toBe(1);
@@ -312,8 +313,10 @@ describe("Game", function() {
       game.state[2][5] = 1;
       game.state[3][5] = 1;
       game.userChanged = true;
+      game.saveUserChanges();
       game.step(2);
       game.userChanged = true;
+      game.saveUserChanges();
       game.step(1);
       expect(game.userStates.length).toBe(2);
     });

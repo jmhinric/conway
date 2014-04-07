@@ -73,7 +73,7 @@ Game.prototype.tempClear = function() {
 
 Game.prototype.step = function(steps) {
   if(this.stepCount === 0 || !this.stillLife() || this.userChanged) {
-    if(this.userChanged) { this.saveUserChanges(); }
+    // if(this.userChanged) { this.saveUserChanges(); }
     for(var k = 0; k < steps; k++) {
       this.stepCount++;
       this.tempClear();

@@ -17,14 +17,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def authorize
-    if current_user != @user && !logged_in?
-      redirect_to login_path
-    elsif current_user != @user
-      flash[:notice] = "Authorization failed"
-      redirect_to root_path
-    end
-  end
+  # def authorize
+  #   if current_user != @user && !logged_in?
+  #     redirect_to login_path
+  #   elsif current_user != @user
+  #     flash[:notice] = "Authorization failed"
+  #     redirect_to root_path
+  #   end
+  # end
 
 
   helper_method :current_user, :logged_in?, :authenticate, :authorize

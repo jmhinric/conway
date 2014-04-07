@@ -7,32 +7,24 @@ var boardCols = 20;
 newGame();
 
 $(".start").on("click", function() {
-  if (!game.gameStarted) { game.updateHistory(); }
-  game.gameStarted = true;
-
-  clearInterval(intervalId);
+  startGame();
   $(".start").attr("disabled", true);
   $(".reverse").attr("disabled", false);
+  $(".step-back").attr("disabled", false);
 
   intervalId = setInterval(takeStep, 1000/parseInt(speed));
 });
 
 $(".step-forward").on("click", function() {
-  if (!game.gameStarted) { game.updateHistory(); }
-  game.gameStarted = true;
-
-  clearInterval(intervalId);
+  startGame();
   $(".reverse").attr("disabled", false);
   $(".step-back").attr("disabled", false);
-  
-  game.step(1);
-  render();
+  takeStep();
 });
 
 $(".reverse").on("click", function() {
   // Can't click reverse if stepCount is 0
   if (game.stepCount > 0) {
-    
     clearInterval(intervalId);
     $(".reverse").attr("disabled", true);
     $(".start").attr("disabled", false);
@@ -45,9 +37,7 @@ $(".reverse").on("click", function() {
 $(".step-back").on("click", function() {
   if (game.stepCount > 0) {
     clearInterval(intervalId);
-    
-    game.stepBack(1);
-    render();
+    takeStepBack();
   }
 });
 
@@ -60,13 +50,7 @@ $(".clear").on("click", function() {
 
 $(".board-size").submit(function(e) {
   e.preventDefault();
-  boardRows = $("input[name = num-rows]").val();
-  boardCols = $("input[name = num-cols]").val();
-  $("input").val('').blur();
-
-  var width = parseInt(boardRows) * 22 + 20;
-  $(".board").css({"width": width});
-
+  changeBoardSize();
   newGame();
 });
 
@@ -74,12 +58,21 @@ $("input.speed").on("keyup", function() {
   speed = $("input.speed").val();
 });
 
+function startGame() {
+  if (!game.gameStarted) { game.updateHistory(); }
+  game.gameStarted = true;
+  clearInterval(intervalId);
+}
+
 function takeStep() {
   if (game.gameOver) {
     clearInterval(intervalId);
     $(".start").attr("disabled", false);
   }
-  console.log("Stepping...");
+  if (game.userChanged) {
+    game.saveUserChanges();
+    renderSavedState();
+  }
   game.step(1);
   render();
 }
@@ -113,16 +106,16 @@ function render() {
   $(".steps").text("Steps: " + game.stepCount);
   for(var row = 0; row < game.rows; row++) {
     for(var col = 0; col < game.cols; col++) {
-      createCell(row, col);
+      createCell(row, col, game.state, "cell", ".board-wrapper");
     }
-    $("<br>").appendTo(".board-wrapper");
+    $("<br>").appendTo(".board");
   }
 }
 
-function createCell(row, col) {
-  var status = game.state[row][col] === 1 ? "alive" : "";
+function createCell(row, col, state, cellClass, appendToEl) {
+  var status = state[row][col] === 1 ? "alive" : "";
   var cell = $("<div>");
-  cell.addClass("cell")
+  cell.addClass(cellClass)
       .addClass(status)
       .attr("id", row + "-" + col)
       .on("click", function() {
@@ -130,8 +123,32 @@ function createCell(row, col) {
         $(this).toggleClass("alive");
         var cellRow = this.id.split("-")[0];
         var cellCol = this.id.split("-")[1];
-        game.state[cellRow][cellCol] = game.state[cellRow][cellCol] === 1 ? 0 : 1;
+        state[cellRow][cellCol] = state[cellRow][cellCol] === 1 ? 0 : 1;
       });
-  cell.appendTo(".board-wrapper");
+  cell.appendTo(appendToEl);
+}
+
+function changeBoardSize() {
+  boardRows = $("input[name = num-rows]").val();
+  boardCols = $("input[name = num-cols]").val();
+  $("input").val('').blur();
+
+  var width = parseInt(boardRows) * 22 + 20;
+  $(".board").css({"width": width});
+}
+
+function renderSavedState() {
+  var newDiv = $("<div>")
+  newDiv.attr("id", state)
+        .addClass("temp-state");
+  var state = game.userStates.length - 1;
+
+  for(var row = 0; row < game.rows; row++) {
+    for(var col = 0; col < game.cols; col++) {
+      createCell(row, col, game.userStates[state], "mini-cell", newDiv);
+    }
+    $("<br>").appendTo(newDiv);
+  }
+  newDiv.appendTo(".temp-states");
 }
 

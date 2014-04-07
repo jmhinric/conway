@@ -27,3 +27,31 @@ describe "user can log in" do
     expect(page).to have_content "Log Out"
   end
 end
+
+describe "user can log out" do
+  let(:user) { FactoryGirl.create :user }
+
+  it "lets a user log out" do
+    visit root_path
+    click_link "Log In"
+    fill_in "Email", with: user.email
+    fill_in "Password", with: user.password
+    click_button "Log in"
+    click_link "Log Out"
+    expect(page).to have_content("Log In")
+  end
+end
+
+describe "user cannot log in twice" do
+  let(:user) { FactoryGirl.create :user }
+
+  it "redirects logged in users to root if they try to sign in twice" do
+    visit root_path
+    click_link "Log In"
+    fill_in "Email", with: user.email
+    fill_in "Password", with: user.password
+    click_button "Log in"
+    visit login_path
+    expect(page).to have_content("Conway's")
+  end
+end
