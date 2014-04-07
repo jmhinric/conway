@@ -14,3 +14,16 @@ describe "user can sign up" do
   end
 
 end
+
+describe "user can log in" do
+  let(:user) { FactoryGirl.create :user }
+
+  it "lets a user log in" do
+    visit root_path
+    click_link "Log In"
+    fill_in "Email", with: user.email
+    fill_in "Password", with: user.password
+    click_button "Log in"
+    expect(page).to have_content "Log Out"
+  end
+end

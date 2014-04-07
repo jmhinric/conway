@@ -2,10 +2,7 @@ require 'spec_helper'
 
 describe User do
   before(:each) do
-    User.create(
-      email: "j@ex.co",
-      password: "password",
-      password_confirmation: "password")
+    FactoryGirl.create(:user)
   end
 
   it { should validate_uniqueness_of(:email) }
