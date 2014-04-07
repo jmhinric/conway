@@ -108,7 +108,7 @@ function render() {
     for(var col = 0; col < game.cols; col++) {
       createCell(row, col, game.state, "cell", ".board-wrapper");
     }
-    $("<br>").appendTo(".board");
+    $("<br>").appendTo(".board-wrapper");
   }
 }
 
@@ -136,7 +136,7 @@ function changeBoardSize() {
   $("input").val('').blur();
 
   var width = parseInt(boardRows) * 22 + 20;
-  $(".board").css({"width": width});
+  $(".board-wrapper").css({"width": width});
 }
 
 function renderSavedState() {
@@ -151,14 +151,28 @@ function renderSavedState() {
     }
   $("<br>").appendTo(newDiv);
   }
-  loadAndSaveCss(newDiv, state);
+  loadButtonCss(newDiv, state);
+  saveButtonCss(newDiv, state);
 }
 
-function loadAndSaveCss(newDiv, id) {
+function loadButtonCss(newDiv, id) {
   $("<button>").addClass("load")
                .text("Load")
-               .attr("id", id)
+               .attr("id", id + "-" + game.rows + "-" + game.cols)
+               .on("click", function () {
+                  game.history = [];
+                  game.stepCount = 0;
+                  game.gameStarted = false;
+                  var id = this.id.split("-");
+                  game.rows = id[1];
+                  game.cols = id[2];
+                  game.setGameState(game.userStates[id[0]], id[1], id[2]);
+                  render();
+               })
                .appendTo(newDiv);
+}
+
+function saveButtonCss(newDiv, id) {
   var div = $("<div>").addClass("save")
                       .appendTo(newDiv);
   $("<input type='text' placeholder='Name it'>")
@@ -171,4 +185,3 @@ function loadAndSaveCss(newDiv, id) {
   $("<br>").appendTo(newDiv);
   $(".temp-states").prepend(newDiv);
 }
-

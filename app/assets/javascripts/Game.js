@@ -151,6 +151,14 @@ Game.prototype.saveUserChanges = function() {
   this.userChanged = false;
 };
 
+Game.prototype.setGameState = function(array, rows, cols) {
+  for(var i = 0; i < rows; i++) {
+    for(var j = 0; j < cols; j++) {
+      this.state[i][j] = array[i][j];
+    }
+  }
+};
+
 Game.prototype.stillLife = function() {
   var strHi = this.stringHistory;
   this.gameOver = (strHi[strHi.length - 1] === strHi[strHi.length - 2]);

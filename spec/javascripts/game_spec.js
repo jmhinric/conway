@@ -289,7 +289,7 @@ describe("Game", function() {
     });
   });
 
-  describe("saveUserChanges", function() {
+  describe("#saveUserChanges", function() {
     it("saves states of the game the user creates", function() {
       game.setInitialState();
       game.updateHistory();
@@ -323,8 +323,8 @@ describe("Game", function() {
   });
 
   // These tests maybe belong under "#step" ???
-  describe("stillLife", function() {
-    it("tests to ensure the game does not consist only of 'still life objects'", function() {
+  describe("#stillLife", function() {
+    xit("tests to ensure the game does not consist only of 'still life objects'", function() {
       game.state[0][0] = 1;
       game.state[0][1] = 1;
       game.state[1][0] = 1;
@@ -337,7 +337,7 @@ describe("Game", function() {
       expect(game.stepCount).toBe(2);
     });
 
-    it("allows the game to step if the user has changed the board from being a still life object", function() {
+    xit("allows the game to step if the user has changed the board from being a still life object", function() {
       game.state[0][0] = 1;
       game.state[0][1] = 1;
       game.state[1][0] = 1;
@@ -346,6 +346,20 @@ describe("Game", function() {
       game.userChanged = true;
       game.step(1);
       expect(game.stepCount).toBe(3);
+    });
+  });
+
+  describe("#setGameState", function() {
+    it("sets the game state from a given state", function() {
+      game.setInitialState();
+      game.updateHistory();
+      game.step(2);
+      game.setGameState(game.history[0], 10, 10);
+      expect(game.state[0][2]).toBe(1);
+      expect(game.state[1][2]).toBe(1);
+      expect(game.state[2][2]).toBe(1);
+      expect(game.state[2][1]).toBe(1);
+      expect(game.state[1][0]).toBe(1);
     });
   });
 });
