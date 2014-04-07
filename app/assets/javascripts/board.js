@@ -150,5 +150,7 @@ function renderSavedState() {
     $("<br>").appendTo(newDiv);
   }
   newDiv.appendTo(".temp-states");
+  $("<br>").appendTo(".temp-states");
+  $("<br>").appendTo(".temp-states");
 }
 

@@ -1,51 +1,56 @@
 <div class="page-wrapper">
-  
-  <h1>Conway's Game of Life Simulator</h1>
-
-  <div class="controls">
-    <button class="start">Start</button>
-    <button class="reverse" disabled>Reverse</button>
-    <button class="pause">Pause</button>
-    <button class="clear">Clear</button>
-    <button class="step-back" disabled>-1</button>
-    <button class="step-forward">+1</button>
-  </div>
-
-  <div class="history">
-    <form>
-      <label>
-        Save current configuration?
-        <input type="text" name="title" placeholder="Name it...">
-      </label>
-      <button>Save</button>
-    </form>
-  </div>
-
-  <div class='board-specs'>
-    <form class="board-size">
-      <label>
-        Board size:
-        <input type="text" name="num-rows">
-        <input type="text" name="num-cols">
-      </label>
-      <button class="submit-board">Set</button>
-    </form>
-
-    <span class="speed">Speed (steps/sec):</span>
-    <input class="speed" type="text">
-    <span class='steps'></span>
-  </div>
-
-  <main>
-    <div class="board-wrapper">
-      <div class="board"></div>
-    </div>
-    
+  <div class="left-sidebar">
     <div class="temp-states-wrapper">
-      <h2>States this Game:</h2>
+      <h2>Last Made State:</h2>
       <div class="temp-states">
       </div>
     </div>
-  </main>
+  </div>
 
+  <div class="game">
+    <h1>Conway's Game of Life Simulator</h1>
+
+    <div class="controls">
+      <button class="start">Start</button>
+      <button class="reverse" disabled>Reverse</button>
+      <button class="pause">Pause</button>
+      <button class="clear">Clear</button>
+      <button class="step-back" disabled>-1</button>
+      <button class="step-forward">+1</button>
+    </div>
+
+    <div class="history">
+      <form>
+        <label>
+          Save current configuration?
+          <input type="text" name="title" placeholder="Name it...">
+        </label>
+        <button>Save</button>
+      </form>
+    </div>
+
+    <div class='board-specs'>
+      <form class="board-size">
+        <label>
+          Board size:
+          <input type="text" name="num-rows">
+          <input type="text" name="num-cols">
+        </label>
+        <button class="submit-board">Set</button>
+      </form>
+
+      <span class="speed">Speed (steps/sec):</span>
+      <input class="speed" type="text">
+      <span class='steps'></span>
+    </div>
+
+    <main>
+      <div class="board-wrapper">
+        <div class="board"></div>
+      </div>
+      
+    </main>
+  </div>
+  <div class="right-sidebar">
+  </div>
 </div>
