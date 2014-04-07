@@ -140,7 +140,7 @@ function changeBoardSize() {
 }
 
 function renderSavedState() {
-  var newDiv = $("<div>")
+  var newDiv = $("<div>");
   newDiv.attr("id", state)
         .addClass("temp-state");
   var state = game.userStates.length - 1;
@@ -149,10 +149,26 @@ function renderSavedState() {
     for(var col = 0; col < game.cols; col++) {
       createCell(row, col, game.userStates[state], "mini-cell", newDiv);
     }
-    $("<br>").appendTo(newDiv);
+  $("<br>").appendTo(newDiv);
   }
+  loadAndSaveCss(newDiv, state);
+}
+
+function loadAndSaveCss(newDiv, id) {
+  $("<button>").addClass("load")
+               .text("Load")
+               .attr("id", id)
+               .appendTo(newDiv);
+  var div = $("<div>").addClass("save")
+                      .appendTo(newDiv);
+  $("<input type='text' placeholder='Name it'>")
+    .addClass("save-text")
+    .appendTo(div);
+  $("<button>").addClass("save-button")
+               .text("Save")
+               .attr("id", id)
+               .appendTo(div);
   $("<br>").appendTo(newDiv);
   $(".temp-states").prepend(newDiv);
-  // $("<br>").appendTo(".temp-states");
 }
 
