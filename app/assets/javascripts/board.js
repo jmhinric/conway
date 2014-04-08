@@ -1,166 +1,98 @@
-var game;
-var intervalId;
-var speed;
-var boardRows = 20;
-var boardCols = 20;
+Conway.Board.intervalId = {};
+Conway.Board.speed = {};
 
-newGame();
+// set up default board size
+Conway.Board.defaultRows = 20;
+Conway.Board.defaultCols = 20;
 
-$(".start").on("click", function() {
-  startGame();
-  $(".start").attr("disabled", true);
-  $(".reverse").attr("disabled", false);
-  $(".step-back").attr("disabled", false);
+// *******************************************
 
-  intervalId = setInterval(takeStep, 1000/parseInt(speed));
-});
+Conway.newGame = function(rows, cols) {
+  this.game = new Conway.Game(rows, cols);
+  $(".temp-states").empty();
+  this.game.setInitialState();
+  Conway.Board.render();
+};
 
-$(".step-forward").on("click", function() {
-  startGame();
-  $(".reverse").attr("disabled", false);
-  $(".step-back").attr("disabled", false);
-  takeStep();
-});
-
-$(".reverse").on("click", function() {
-  // Can't click reverse if stepCount is 0
-  if (game.stepCount > 0) {
-    clearInterval(intervalId);
-    $(".reverse").attr("disabled", true);
-    $(".start").attr("disabled", false);
-    $(".step-back").attr("disabled", false);
-    $(".message").text("");
-
-    intervalId = setInterval(takeStepBack, 1000/parseInt(speed));
-  }
-});
-
-$(".step-back").on("click", function() {
-  if (game.stepCount > 0) {
-    clearInterval(intervalId);
-    $(".message").text("");
-    takeStepBack();
-  }
-});
-
-$(".pause").on("click", stopTimer);
-
-$(".clear").on("click", function() {
-  stopTimer();
-  newGame();
-});
-
-$(".board-size").submit(function(e) {
-  e.preventDefault();
-  changeBoardSize();
-  newGame();
-});
-
-$("input.speed").on("keyup", function() {
-  speed = $("input.speed").val();
-});
-
-function startGame() {
-  if (!game.gameStarted) { game.updateHistory(); }
-  game.gameStarted = true;
-  clearInterval(intervalId);
-}
+Conway.startGame = function() {
+  if (!Conway.game.gameStarted) { Conway.game.updateHistory(); }
+  this.game.gameStarted = true;
+  clearInterval(Conway.Board.intervalId);
+};
 
 function takeStep() {
-  if (game.gameOver) {
-    clearInterval(intervalId);
-    $(".start").attr("disabled", false);
-  }
-  if (game.userChanged) {
-    game.saveUserChanges();
+  if (Conway.game.userChanged) {
+    Conway.game.saveUserChanges();
     renderSavedState();
   }
-  if (game.stillLife()) {
-    $(".message").text("Still Life");
-  } else { game.step(1); }
-  oscillationCheck();
-  render();
+
+  if (Conway.game.gameOver) {
+    clearInterval(Conway.Board.intervalId);
+    $(".start").attr("disabled", false);
+  } else { Conway.game.step(1); }
+  
+  Conway.Board.render();
 }
 
 function takeStepBack() {
-  if (game.stepCount === 0) {
-    clearInterval(intervalId);
+  if (Conway.game.stepCount === 0) {
+    clearInterval(Conway.Board.intervalId);
     $(".reverse").attr("disabled", true);
     $(".step-back").attr("disabled", true);
   }
-  game.stepBack(1);
-  render();
+  Conway.game.stepBack(1);
+  Conway.Board.render();
 }
 
-function stopTimer() {
-  clearInterval(intervalId);
-  $(".start").attr("disabled", false);
-  $(".reverse").attr("disabled", false);
-  $(".step-forward").attr("disabled", false);
-  $(".step-back").attr("disabled", false);
-}
 
-function newGame() {
-  game = new Game(boardRows, boardCols);
-  $(".temp-states").empty();
-  $(".message").text("");
-  game.setInitialState();
-  render();
-}
-
-function render() {
+Conway.Board.render = function() {
   $(".board-wrapper").empty();
-  $(".steps").text("Steps: " + game.stepCount);
-  for(var row = 0; row < game.rows; row++) {
-    for(var col = 0; col < game.cols; col++) {
-      createCell(row, col, game.state, "cell", ".board-wrapper");
+  $(".steps").text("Steps: " + Conway.game.stepCount);
+  $(".message").text(Conway.game.message);
+
+  for(var row = 0; row < Conway.game.rows; row++) {
+    for(var col = 0; col < Conway.game.cols; col++) {
+      Conway.Board.createCell(row, col, Conway.game.state, "cell", ".board-wrapper");
     }
     $("<br>").appendTo(".board-wrapper");
   }
 }
 
-function createCell(row, col, state, cellClass, appendToEl) {
+Conway.Board.createCell = function(row, col, state, cellClass, appendToEl) {
   var status = state[row][col] === 1 ? "alive" : "";
   var cell = $("<div>");
   cell.addClass(cellClass)
       .addClass(status)
       .attr("id", row + "-" + col);
-  cellListener(state, cell, cellClass);
+  Conway.Board.cellListener(state, cell, cellClass);
   cell.appendTo(appendToEl);
-}
+};
 
-function cellListener(state, cell, cellClass) {
-  if (cellClass === "cell") {
+Conway.Board.cellListener = function(state, cell, cellClass) {
+  if (cellClass != "mini-cell") {
     cell.on("click", function() {
-      game.userChanged = true;
-      game.gameOver = false;
-      $(".message").text("");
+      Conway.game.userChanged = true;
+      Conway.game.gameOver = false;
+      Conway.game.message = "";
       $(this).toggleClass("alive");
       var cellRow = this.id.split("-")[0];
       var cellCol = this.id.split("-")[1];
       state[cellRow][cellCol] = state[cellRow][cellCol] === 1 ? 0 : 1;
     });
   }
-}
-
-function changeBoardSize() {
-  boardRows = $("input[name = num-rows]").val();
-  boardCols = $("input[name = num-cols]").val();
-  $("input").val('').blur();
-
-  var width = parseInt(boardCols) * 22 + 20;
-  $(".board-wrapper").css({"width": width});
-}
+};
 
 function renderSavedState() {
   var newDiv = $("<div>");
-  var state = game.userStates.length - 1;
+  var state = Conway.game.userStates.length - 1;
+  var width = parseInt(Conway.Board.defaultCols, 0) * 18 + 20;
   newDiv.attr("id", state)
-        .addClass("temp-state");
+        .addClass("temp-state")
+        .css({"width": width});
 
-  for(var row = 0; row < game.rows; row++) {
-    for(var col = 0; col < game.cols; col++) {
-      createCell(row, col, game.userStates[state], "mini-cell", newDiv);
+  for(var row = 0; row < Conway.game.rows; row++) {
+    for(var col = 0; col < Conway.game.cols; col++) {
+      Conway.Board.createCell(row, col, Conway.game.userStates[state], "mini-cell", newDiv);
     }
   $("<br>").appendTo(newDiv);
   }
@@ -171,14 +103,27 @@ function renderSavedState() {
 function loadButtonCss(newDiv, id) {
   $("<button>").addClass("load")
                .text("Load")
-               .attr("id", id + "-" + game.rows + "-" + game.cols)
+               .attr("id", id + "-" + Conway.game.rows + "-" + Conway.game.cols)
                .on("click", function () {
-                  resetDom();
                   var id = this.id.split("-");
                   resetGame(id);
-                  render();
+                  Conway.Board.render();
                })
                .appendTo(newDiv);
+}
+
+function resetGame(id) {
+  Conway.game.clearState();
+  Conway.game.history = [];
+  Conway.game.stringHistory = [];
+  Conway.game.stepCount = 0;
+  Conway.game.gameStarted = false;
+  Conway.game.gameOver = false;
+  Conway.game.userChanged = false;
+  Conway.game.message = "";
+  Conway.game.rows = id[1];
+  Conway.game.cols = id[2];
+  Conway.game.setGameState(Conway.game.userStates[id[0]], id[1], id[2]);
 }
 
 function saveButtonCss(newDiv, id) {
@@ -195,29 +140,10 @@ function saveButtonCss(newDiv, id) {
   $(".temp-states").prepend(newDiv);
 }
 
-function resetDom() {
-  game.history = [];
-  game.stringHistory = [];
-  game.stepCount = 0;
-  game.gameStarted = false;
-  game.gameOver = false;
-  game.userChanged = false;
-  $(".message").text("");
-}
-
-function resetGame(id) {
-  game.rows = id[1];
-  game.cols = id[2];
-  // game.history = [];
-  // game.stringHistory = [];
-  game.stateClear();
-  game.setGameState(game.userStates[id[0]], id[1], id[2]);
-  console.log(game.state);
-  console.log(game.history);
-}
-
-function oscillationCheck() {
-  if (game.oscillates()) {
-    $(".message").text("Period " + game.oscPeriod + " Oscillator");
-  }
+function stopTimer() {
+  clearInterval(Conway.Board.intervalId);
+  $(".start").attr("disabled", false);
+  $(".reverse").attr("disabled", false);
+  $(".step-forward").attr("disabled", false);
+  $(".step-back").attr("disabled", false);
 }

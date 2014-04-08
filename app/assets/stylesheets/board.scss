@@ -162,19 +162,15 @@ span.speed {
 }
 
 .temp-states {
-  /*width: 400px;*/
-  /*width: 100%;*/
   width: 600px;
-  /*margin: 0 auto;*/
+  margin: 0 auto;
   display: inline-block;
   /*border: 1px solid orange;*/
 }
 
 .temp-state {
-  /*border: 1px solid black;*/
-  display: inline-block;
-  /*padding-left: 30px;*/
-  margin: 10px auto;
+  /*border: 1px solid blue;*/
+  margin: 20px auto;
 }
 
 .mini-cell {
@@ -193,6 +189,8 @@ span.speed {
 
 .save {
   float: right;
+  padding-right: 20px;
+  /*border: 1px solid red;*/
 
   .save-button {
     color: white;

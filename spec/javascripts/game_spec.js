@@ -1,17 +1,17 @@
-describe("Game", function() {
+describe("Conway.Game", function() {
   var game;
 
   beforeEach(function() {
-    game = new Game(10,10);
+    game = new Conway.Game(10,10);
   });
 
   describe("#initialize", function() {
     it("throws an error if initial board size is not given", function(){
-      expect(function(){game = new Game();}).toThrow("Please specify the number of rows and columns.");
+      expect(function(){game = new Conway.Game();}).toThrow("Please specify the number of rows and columns.");
     });
 
     it("sets the number of rows and columns for the board", function() {
-      game = new Game(10,10);
+      game = new Conway.Game(10,10);
       expect(game.rows).toBe(10);
       expect(game.cols).toBe(10);
     });
@@ -137,7 +137,7 @@ describe("Game", function() {
       game.state[0][1] = 1;
       game.state[1][1] = 1;
       game.state[2][1] = 1;
-
+      game.updateHistory();
       game.step(1);
       expect(game.state[0][0]).toBe(0);
       expect(game.state[0][1]).toBe(0);
@@ -154,7 +154,7 @@ describe("Game", function() {
       game.state[0][1] = 1;
       game.state[1][1] = 1;
       game.state[2][1] = 1;
-
+      game.updateHistory();
       game.step(2);
       expect(game.state[0][0]).toBe(0);
       expect(game.state[0][1]).toBe(1);
@@ -173,7 +173,7 @@ describe("Game", function() {
       game.state[2][2] = 1;
       game.state[0][2] = 1;
       game.state[1][2] = 1;
-
+      game.updateHistory();
       game.step(4);
       
       expect(game.state[1][0]).toBe(0);
@@ -188,12 +188,12 @@ describe("Game", function() {
     });
   });
 
-  describe("#stateClear", function() {
+  describe("#clearState", function() {
     it("clears the State array", function() {
       game.state[0][0] = 1;
       game.state[2][2] = 1;
       game.state[8][3] = 1;
-      game.stateClear();
+      game.clearState();
       expect(game.state[0][0]).toBe(0);
       expect(game.state[2][2]).toBe(0);
       expect(game.state[8][8]).toBe(0);
@@ -230,7 +230,7 @@ describe("Game", function() {
     });
 
     it("records three steps of the board to the game's stringHistory", function() {
-      game = new Game(3,3);
+      game = new Conway.Game(3,3);
       game.setInitialState();
       game.updateHistory();
       game.step(3);
@@ -266,6 +266,7 @@ describe("Game", function() {
 
     it("updates the game's step counter", function() {
       game.setInitialState();
+      game.updateHistory();
       game.step(4);
       expect(game.stepCount).toBe(4);
       game.stepBack(3);
@@ -274,18 +275,20 @@ describe("Game", function() {
 
     it("erases the game's history as it steps back", function() {
       game.setInitialState();
+      game.updateHistory();
       game.step(2);
-      expect(game.history.length).toBe(2);
+      expect(game.history.length).toBe(3);
       game.stepBack(1);
-      expect(game.history.length).toBe(1);
+      expect(game.history.length).toBe(2);
     });
 
     it("erases the game's string history as it steps back", function() {
       game.setInitialState();
+      game.updateHistory();
       game.step(2);
-      expect(game.stringHistory.length).toBe(2);
+      expect(game.stringHistory.length).toBe(3);
       game.stepBack(1);
-      expect(game.stringHistory.length).toBe(1);
+      expect(game.stringHistory.length).toBe(2);
     });
   });
 
@@ -338,23 +341,22 @@ describe("Game", function() {
 
   // These tests maybe belong under "#step" ???
   describe("#stillLife", function() {
-    xit("tests to ensure the game does not consist only of 'still life objects'", function() {
+    it("tests to ensure the game does not consist only of 'still life objects'", function() {
       game.state[0][0] = 1;
       game.state[0][1] = 1;
       game.state[1][0] = 1;
       game.updateHistory();
       game.step(3);
-      console.log(game.history);
-      console.log("Steps: " + game.stepCount);
-      console.log("History length: " + game.history.length);
       expect(game.history.length).toBe(3);
+      expect(game.message).toBe("Still Life");
       expect(game.stepCount).toBe(2);
     });
 
-    xit("allows the game to step if the user has changed the board from being a still life object", function() {
+    it("allows the game to step if the user has changed the board from being a still life object", function() {
       game.state[0][0] = 1;
       game.state[0][1] = 1;
       game.state[1][0] = 1;
+      game.updateHistory();
       game.step(3);
       game.state[1][2] = 1;
       game.userChanged = true;
@@ -393,7 +395,7 @@ describe("Game", function() {
   });
 
   describe("#setInitialGameState", function() {
-    it("sets the board at game start", function() {
+    xit("sets the board at game start", function() {
       var array = [[1,1], [5,5]];
       game.setInitialGameState(array);
       expect(game.state[1][1]).toBe(1);
