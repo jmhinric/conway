@@ -125,17 +125,22 @@ function createCell(row, col, state, cellClass, appendToEl) {
   cell.addClass(cellClass)
       .addClass(status)
       .attr("id", row + "-" + col);
+  cellListener(state, cell, cellClass);
+  cell.appendTo(appendToEl);
+}
+
+function cellListener(state, cell, cellClass) {
   if (cellClass === "cell") {
     cell.on("click", function() {
       game.userChanged = true;
       game.gameOver = false;
+      $(".message").text("");
       $(this).toggleClass("alive");
       var cellRow = this.id.split("-")[0];
       var cellCol = this.id.split("-")[1];
       state[cellRow][cellCol] = state[cellRow][cellCol] === 1 ? 0 : 1;
     });
   }
-  cell.appendTo(appendToEl);
 }
 
 function changeBoardSize() {
@@ -149,9 +154,9 @@ function changeBoardSize() {
 
 function renderSavedState() {
   var newDiv = $("<div>");
+  var state = game.userStates.length - 1;
   newDiv.attr("id", state)
         .addClass("temp-state");
-  var state = game.userStates.length - 1;
 
   for(var row = 0; row < game.rows; row++) {
     for(var col = 0; col < game.cols; col++) {
@@ -192,16 +197,23 @@ function saveButtonCss(newDiv, id) {
 
 function resetDom() {
   game.history = [];
+  game.stringHistory = [];
   game.stepCount = 0;
   game.gameStarted = false;
   game.gameOver = false;
+  game.userChanged = false;
   $(".message").text("");
 }
 
 function resetGame(id) {
   game.rows = id[1];
   game.cols = id[2];
+  // game.history = [];
+  // game.stringHistory = [];
+  game.stateClear();
   game.setGameState(game.userStates[id[0]], id[1], id[2]);
+  console.log(game.state);
+  console.log(game.history);
 }
 
 function oscillationCheck() {
