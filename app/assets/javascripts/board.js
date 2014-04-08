@@ -170,7 +170,7 @@ function loadButtonCss(newDiv, id) {
                .on("click", function () {
                   resetDom();
                   var id = this.id.split("-");
-                  resetGame();
+                  resetGame(id);
                   render();
                })
                .appendTo(newDiv);
@@ -198,7 +198,7 @@ function resetDom() {
   $(".message").text("");
 }
 
-function resetGame() {
+function resetGame(id) {
   game.rows = id[1];
   game.cols = id[2];
   game.setGameState(game.userStates[id[0]], id[1], id[2]);
