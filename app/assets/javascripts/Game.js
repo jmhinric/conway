@@ -7,6 +7,7 @@ function Game(numRows, numCols) {
   this.rows = numRows;
   this.cols = numCols;
   this.stepCount = 0;
+  this.oscPeriod = '';
   this.gameStarted = false;
   this.userChanged = false;
   this.gameOver = false;
@@ -165,17 +166,38 @@ Game.prototype.stillLife = function() {
 };
 
 Game.prototype.oscillates = function () {
-  var count = 0;
+  this.oscPeriod = 0;
   var strHist = this.stringHistory;
 
   for(var i = 0; i < strHist.length - 2; i++) {
-    if(strHist[strHist.length-1] === strHist[i]) {count++;}
+    if(strHist[strHist.length-1] === strHist[i]) {this.oscPeriod = strHist.length - i - 1;}
   }
-  return count > 0;
+  return this.oscPeriod > 0;
 };
 
+Game.prototype.setInitialGameState = function(array) {
+  array.forEach(function(val) {
+    var row = val[0];
+    console.log(row);
+    var col = val[1];
+    console.log(col);
+    this.state[row][col] = 1;
+  });
+};
 
-
+// PERIOD 11 OSCILLATOR:
+// var osc11 = ["1-3", "1-4", "1-6", "1-7",
+//    "2-4", "2-6", "2-8",
+//    "3-4", "3-9",
+//    "4-1", "4-2", "4-4", "4-10",
+//    "5-1", "5-2", "5-4", "5-11",
+//    "6-4", "6-6", "6-12",
+//    "7-4", "7-6", "7-7", "7-11", "7-12",
+//    "8-5",
+//    "9-6", "9-7", "9-8", "9-9", "9-10", "9-11", "9-12",
+//    "10-12",
+//    "11-8", "11-9",
+//    "12-8", "12-9"];
 
 
 

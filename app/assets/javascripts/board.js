@@ -218,6 +218,6 @@ function resetGame(id) {
 
 function oscillationCheck() {
   if (game.oscillates()) {
-    $(".message").text("Oscillation!!!");
+    $(".message").text("Period " + game.oscPeriod + " Oscillator");
   }
 }

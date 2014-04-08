@@ -391,6 +391,15 @@ describe("Game", function() {
       expect(game.oscillates()).toBe(true);
     });
   });
+
+  describe("#setInitialGameState", function() {
+    it("sets the board at game start", function() {
+      var array = [[1,1], [5,5]];
+      game.setInitialGameState(array);
+      expect(game.state[1][1]).toBe(1);
+      expect(game.state[5][5]).toBe(1);
+    });
+  });
 });
 
 
