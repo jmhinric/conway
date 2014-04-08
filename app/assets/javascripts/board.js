@@ -22,11 +22,13 @@ Conway.startGame = function() {
 
 function takeStep() {
   if (Conway.game.userChanged) {
+    // Conway.game.updateHistory();
     Conway.game.saveUserChanges();
     renderSavedState();
   }
 
   if (Conway.game.gameOver) {
+    console.log("Game over");
     clearInterval(Conway.Board.intervalId);
     $(".start").attr("disabled", false);
   } else { Conway.game.step(1); }
@@ -56,7 +58,7 @@ Conway.Board.render = function() {
     }
     $("<br>").appendTo(".board-wrapper");
   }
-}
+};
 
 Conway.Board.createCell = function(row, col, state, cellClass, appendToEl) {
   var status = state[row][col] === 1 ? "alive" : "";
@@ -121,6 +123,7 @@ function resetGame(id) {
   Conway.game.gameOver = false;
   Conway.game.userChanged = false;
   Conway.game.message = "";
+  Conway.game.oscPeriod = '';
   Conway.game.rows = id[1];
   Conway.game.cols = id[2];
   Conway.game.setGameState(Conway.game.userStates[id[0]], id[1], id[2]);

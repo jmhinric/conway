@@ -88,6 +88,7 @@ Conway.Game.prototype.step = function(steps) {
       }
       this.updateState();
       this.updateHistory();
+      this.userChanged = false;
     }
   }
 };
@@ -152,7 +153,7 @@ Conway.Game.prototype.saveUserChanges = function() {
   }
   this.userStringStates.push(tempString);
   this.userStates.push(temp);
-  this.userChanged = false;
+  // this.userChanged = false;
 };
 
 Conway.Game.prototype.setGameState = function(array, rows, cols) {
@@ -165,14 +166,15 @@ Conway.Game.prototype.setGameState = function(array, rows, cols) {
 
 Conway.Game.prototype.stillLife = function() {
   var strHi = this.stringHistory;
-  if (strHi[strHi.length - 1] === strHi[strHi.length - 2]) {
+  if (strHi[strHi.length - 1] === strHi[strHi.length - 2] && !this.userChanged) {
     this.gameOver = true;
     this.message = "Still Life";
   }
-  // return this.gameOver;
 };
 
 Conway.Game.prototype.oscillates = function () {
+  // if (this.userChanged) { return false; }
+
   var oscPeriod = 0;
   var strHist = this.stringHistory;
 

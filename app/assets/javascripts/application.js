@@ -60,7 +60,8 @@ $(function() {
       $(".reverse").attr("disabled", true);
       $(".start").attr("disabled", false);
       $(".step-back").attr("disabled", false);
-      $(".message").text("");
+      Conway.game.message = '';
+      Conway.game.gameOver = false;
 
       Conway.Board.intervalId = setInterval(takeStepBack, 1000/parseInt(Conway.Board.speed, 0));
     }
@@ -69,7 +70,8 @@ $(function() {
   $(".step-back").on("click", function() {
     if (Conway.game.stepCount > 0) {
       clearInterval(Conway.Board.intervalId);
-      $(".message").text("");
+      Conway.game.message = '';
+      Conway.game.gameOver = false;
       takeStepBack();
     }
   });
