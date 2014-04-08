@@ -29,6 +29,7 @@ $(".reverse").on("click", function() {
     $(".reverse").attr("disabled", true);
     $(".start").attr("disabled", false);
     $(".step-back").attr("disabled", false);
+    $(".message").text("");
 
     intervalId = setInterval(takeStepBack, 1000/parseInt(speed));
   }
@@ -37,6 +38,7 @@ $(".reverse").on("click", function() {
 $(".step-back").on("click", function() {
   if (game.stepCount > 0) {
     clearInterval(intervalId);
+    $(".message").text("");
     takeStepBack();
   }
 });
@@ -73,7 +75,10 @@ function takeStep() {
     game.saveUserChanges();
     renderSavedState();
   }
-  game.step(1);
+  if (game.stillLife()) {
+    $(".message").text("Still Life");
+  } else { game.step(1); }
+  oscillationCheck();
   render();
 }
 
@@ -97,6 +102,8 @@ function stopTimer() {
 
 function newGame() {
   game = new Game(boardRows, boardCols);
+  $(".temp-states").empty();
+  $(".message").text("");
   game.setInitialState();
   render();
 }
@@ -121,6 +128,7 @@ function createCell(row, col, state, cellClass, appendToEl) {
   if (cellClass === "cell") {
     cell.on("click", function() {
       game.userChanged = true;
+      game.gameOver = false;
       $(this).toggleClass("alive");
       var cellRow = this.id.split("-")[0];
       var cellCol = this.id.split("-")[1];
@@ -135,7 +143,7 @@ function changeBoardSize() {
   boardCols = $("input[name = num-cols]").val();
   $("input").val('').blur();
 
-  var width = parseInt(boardRows) * 22 + 20;
+  var width = parseInt(boardCols) * 22 + 20;
   $(".board-wrapper").css({"width": width});
 }
 
@@ -160,13 +168,9 @@ function loadButtonCss(newDiv, id) {
                .text("Load")
                .attr("id", id + "-" + game.rows + "-" + game.cols)
                .on("click", function () {
-                  game.history = [];
-                  game.stepCount = 0;
-                  game.gameStarted = false;
+                  resetDom();
                   var id = this.id.split("-");
-                  game.rows = id[1];
-                  game.cols = id[2];
-                  game.setGameState(game.userStates[id[0]], id[1], id[2]);
+                  resetGame();
                   render();
                })
                .appendTo(newDiv);
@@ -184,4 +188,24 @@ function saveButtonCss(newDiv, id) {
                .appendTo(div);
   $("<br>").appendTo(newDiv);
   $(".temp-states").prepend(newDiv);
+}
+
+function resetDom() {
+  game.history = [];
+  game.stepCount = 0;
+  game.gameStarted = false;
+  game.gameOver = false;
+  $(".message").text("");
+}
+
+function resetGame() {
+  game.rows = id[1];
+  game.cols = id[2];
+  game.setGameState(game.userStates[id[0]], id[1], id[2]);
+}
+
+function oscillationCheck() {
+  if (game.oscillates()) {
+    $(".message").text("Oscillation!!!");
+  }
 }

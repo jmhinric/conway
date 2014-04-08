@@ -322,6 +322,20 @@ describe("Game", function() {
     });
   });
 
+  describe("#setGameState", function() {
+    it("sets the game state from a given state", function() {
+      game.setInitialState();
+      game.updateHistory();
+      game.step(2);
+      game.setGameState(game.history[0], 10, 10);
+      expect(game.state[0][2]).toBe(1);
+      expect(game.state[1][2]).toBe(1);
+      expect(game.state[2][2]).toBe(1);
+      expect(game.state[2][1]).toBe(1);
+      expect(game.state[1][0]).toBe(1);
+    });
+  });
+
   // These tests maybe belong under "#step" ???
   describe("#stillLife", function() {
     xit("tests to ensure the game does not consist only of 'still life objects'", function() {
@@ -349,17 +363,32 @@ describe("Game", function() {
     });
   });
 
-  describe("#setGameState", function() {
-    it("sets the game state from a given state", function() {
-      game.setInitialState();
+  describe("#oscillates", function() {
+    it("returns true for a period 2 oscillator", function() {
+      game.state[2][2] = 1;
+      game.state[3][2] = 1;
+      game.state[4][2] = 1;
       game.updateHistory();
       game.step(2);
-      game.setGameState(game.history[0], 10, 10);
-      expect(game.state[0][2]).toBe(1);
-      expect(game.state[1][2]).toBe(1);
-      expect(game.state[2][2]).toBe(1);
-      expect(game.state[2][1]).toBe(1);
-      expect(game.state[1][0]).toBe(1);
+      expect(game.oscillates()).toBe(true);
+    });
+
+    it("returns true for a period 8 oscillator", function() {
+      game.state[2][2] = 1;
+      game.state[2][3] = 1;
+      game.state[3][2] = 1;
+      game.state[3][3] = 1;
+      game.state[3][5] = 1;
+      game.state[4][6] = 1;
+      game.state[5][3] = 1;
+      game.state[6][4] = 1;
+      game.state[6][6] = 1;
+      game.state[6][7] = 1;
+      game.state[7][6] = 1;
+      game.state[7][7] = 1;
+      game.updateHistory();
+      game.step(8);
+      expect(game.oscillates()).toBe(true);
     });
   });
 });

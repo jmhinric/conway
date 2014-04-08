@@ -72,8 +72,7 @@ Game.prototype.tempClear = function() {
 };
 
 Game.prototype.step = function(steps) {
-  if(this.stepCount === 0 || !this.stillLife() || this.userChanged) {
-    // if(this.userChanged) { this.saveUserChanges(); }
+  if(this.stepCount === 0 || this.userChanged || !this.gameOver) {
     for(var k = 0; k < steps; k++) {
       this.stepCount++;
       this.tempClear();
@@ -163,18 +162,17 @@ Game.prototype.stillLife = function() {
   var strHi = this.stringHistory;
   this.gameOver = (strHi[strHi.length - 1] === strHi[strHi.length - 2]);
   return this.gameOver;
-  // return this.userChanged || !(strHi[strHi.length - 1] === strHi[strHi.length - 2]);
 };
 
-// Game.prototype.oscillates = function () {
-  // var strHi = this.stringHistory;
-  // var size = this.stringHistory.filter(function(val) {
-  //   return strHi[strHi.length - 1] === val;
-  // });
-  // return size.length <= 1;
-  // This is the test for oscillating:
-  // return size.length > 1 && strHi[strHi.length - 1] != strHi[strHi.length - 2];
-// };
+Game.prototype.oscillates = function () {
+  var count = 0;
+  var strHist = this.stringHistory;
+
+  for(var i = 0; i < strHist.length - 2; i++) {
+    if(strHist[strHist.length-1] === strHist[i]) {count++;}
+  }
+  return count > 0;
+};
 
 
 
