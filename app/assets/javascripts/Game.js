@@ -75,8 +75,8 @@ Conway.Game.prototype.tempClear = function() {
 
 Conway.Game.prototype.step = function(steps) {
   for(var k = 0; k < steps; k++) {
-    this.stillLife();
     this.oscillates();
+    this.stillLife();
 
     if(this.stepCount === 0 || this.userChanged || !this.gameOver) {
       this.stepCount++;
@@ -183,7 +183,7 @@ Conway.Game.prototype.oscillates = function () {
 
   if(this.oscPeriod > 0) {
     this.message = 'Period ' + this.oscPeriod + ' Oscillator';
-  }
+  } else { this.message = ''; }
 };
 
 Conway.Game.prototype.setInitialGameState = function(array) {
