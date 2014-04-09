@@ -7,12 +7,14 @@ by John Hinrichs
 
 **Conway** allows users to create an initial state for Conway's Game of Life, then play the game, pause it, change the state, and un-pause it. Users can also save interesting states they create to their profile history.
 
-### See it on Heroku
+### See it on Heroku:
 
 [Conway's Game of Life Simulator](http://conways-life.herokuapp.com/)
 
 ### Technologies Used
 
+* Javascript
+* JQuery-Rails 3.1.0
 * Ruby 2.1.0
 * Ruby on Rails 4.0.2
 * PostgreSQL Database
