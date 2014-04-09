@@ -35,7 +35,7 @@ Conway.loadTemplates = function() {
               Conway.game.setInitialGameState(val[1]);
               Conway.Board.render();
             })
-            .appendTo(".known-states");
+            .appendTo(".known-states h2");
   });
 };
 
