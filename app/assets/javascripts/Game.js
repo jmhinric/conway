@@ -153,7 +153,6 @@ Conway.Game.prototype.saveUserChanges = function() {
   }
   this.userStringStates.push(tempString);
   this.userStates.push(temp);
-  // this.userChanged = false;
 };
 
 Conway.Game.prototype.setGameState = function(array, rows, cols) {
@@ -173,8 +172,6 @@ Conway.Game.prototype.stillLife = function() {
 };
 
 Conway.Game.prototype.oscillates = function () {
-  // if (this.userChanged) { return false; }
-
   var oscPeriod = 0;
   var strHist = this.stringHistory;
 
@@ -189,29 +186,12 @@ Conway.Game.prototype.oscillates = function () {
 };
 
 Conway.Game.prototype.setInitialGameState = function(array) {
-  array.forEach(function(val) {
-    var row = val[0];
-    var col = val[1];
+  this.clearState();
+  var row = ''; var col = '';
+  for(var i = 0; i < array.length; i++) {
+    row = array[i][0];
+    col = array[i][1];
     this.state[row][col] = 1;
-  });
+  }
 };
-
-// PERIOD 11 OSCILLATOR:
-// var osc11 = ["1-3", "1-4", "1-6", "1-7",
-//    "2-4", "2-6", "2-8",
-//    "3-4", "3-9",
-//    "4-1", "4-2", "4-4", "4-10",
-//    "5-1", "5-2", "5-4", "5-11",
-//    "6-4", "6-6", "6-12",
-//    "7-4", "7-6", "7-7", "7-11", "7-12",
-//    "8-5",
-//    "9-6", "9-7", "9-8", "9-9", "9-10", "9-11", "9-12",
-//    "10-12",
-//    "11-8", "11-9",
-//    "12-8", "12-9"];
-
-
-
-
-
 

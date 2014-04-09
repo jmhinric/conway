@@ -1,16 +1,17 @@
 Conway.Board.intervalId = {};
 Conway.Board.speed = {};
 
-// set up default board size
+// Set default board size
 Conway.Board.defaultRows = 20;
 Conway.Board.defaultCols = 20;
 
 // *******************************************
 
 Conway.newGame = function(rows, cols) {
+  var glider = [[0,2], [1,2], [2,2], [2,1], [1,0]];
   this.game = new Conway.Game(rows, cols);
   $(".temp-states").empty();
-  this.game.setInitialState();
+  this.game.setInitialGameState(Conway.State.GLIDER[1]);
   Conway.Board.render();
 };
 
@@ -20,23 +21,36 @@ Conway.startGame = function() {
   clearInterval(Conway.Board.intervalId);
 };
 
-function takeStep() {
+Conway.loadTemplates = function() {
+  var title;
+  var array;
+  Conway.State.states.forEach(function(val, index, arr) {
+    title = val[0];
+    $("<p>").text(title)
+            .on("click", function() {
+              array = val[1];
+              Conway.game.setInitialGameState(val[1]);
+              Conway.Board.render();
+            })
+            .appendTo(".known-states");
+  });
+};
+
+Conway.Board.takeStep = function() {
   if (Conway.game.userChanged) {
-    // Conway.game.updateHistory();
     Conway.game.saveUserChanges();
-    renderSavedState();
+    Conway.Board.renderSavedState();
   }
 
   if (Conway.game.gameOver) {
-    console.log("Game over");
     clearInterval(Conway.Board.intervalId);
     $(".start").attr("disabled", false);
   } else { Conway.game.step(1); }
   
   Conway.Board.render();
-}
+};
 
-function takeStepBack() {
+Conway.Board.takeStepBack = function() {
   if (Conway.game.stepCount === 0) {
     clearInterval(Conway.Board.intervalId);
     $(".reverse").attr("disabled", true);
@@ -44,7 +58,7 @@ function takeStepBack() {
   }
   Conway.game.stepBack(1);
   Conway.Board.render();
-}
+};
 
 
 Conway.Board.render = function() {
@@ -76,6 +90,7 @@ Conway.Board.cellListener = function(state, cell, cellClass) {
       Conway.game.userChanged = true;
       Conway.game.gameOver = false;
       Conway.game.message = "";
+      Conway.game.oscPeriod = "";
       $(this).toggleClass("alive");
       var cellRow = this.id.split("-")[0];
       var cellCol = this.id.split("-")[1];
@@ -84,7 +99,7 @@ Conway.Board.cellListener = function(state, cell, cellClass) {
   }
 };
 
-function renderSavedState() {
+Conway.Board.renderSavedState = function() {
   var newDiv = $("<div>");
   var state = Conway.game.userStates.length - 1;
   var width = parseInt(Conway.Board.defaultCols, 0) * 18 + 20;
@@ -98,23 +113,23 @@ function renderSavedState() {
     }
   $("<br>").appendTo(newDiv);
   }
-  loadButtonCss(newDiv, state);
-  saveButtonCss(newDiv, state);
-}
+  Conway.Board.loadButtonCss(newDiv, state);
+  Conway.Board.saveButtonCss(newDiv, state);
+};
 
-function loadButtonCss(newDiv, id) {
+Conway.Board.loadButtonCss = function(newDiv, id) {
   $("<button>").addClass("load")
                .text("Load")
                .attr("id", id + "-" + Conway.game.rows + "-" + Conway.game.cols)
                .on("click", function () {
                   var id = this.id.split("-");
-                  resetGame(id);
+                  Conway.Game.resetGame(id);
                   Conway.Board.render();
                })
                .appendTo(newDiv);
-}
+};
 
-function resetGame(id) {
+Conway.Game.resetGame = function(id) {
   Conway.game.clearState();
   Conway.game.history = [];
   Conway.game.stringHistory = [];
@@ -127,9 +142,9 @@ function resetGame(id) {
   Conway.game.rows = id[1];
   Conway.game.cols = id[2];
   Conway.game.setGameState(Conway.game.userStates[id[0]], id[1], id[2]);
-}
+};
 
-function saveButtonCss(newDiv, id) {
+Conway.Board.saveButtonCss = function(newDiv, id) {
   var div = $("<div>").addClass("save")
                       .appendTo(newDiv);
   $("<input type='text' placeholder='Name it'>")
@@ -141,12 +156,12 @@ function saveButtonCss(newDiv, id) {
                .appendTo(div);
   $("<br>").appendTo(newDiv);
   $(".temp-states").prepend(newDiv);
-}
+};
 
-function stopTimer() {
+Conway.Board.stopTimer = function() {
   clearInterval(Conway.Board.intervalId);
   $(".start").attr("disabled", false);
   $(".reverse").attr("disabled", false);
   $(".step-forward").attr("disabled", false);
   $(".step-back").attr("disabled", false);
-}
+};

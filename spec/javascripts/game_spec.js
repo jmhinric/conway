@@ -395,7 +395,7 @@ describe("Conway.Game", function() {
   });
 
   describe("#setInitialGameState", function() {
-    xit("sets the board at game start", function() {
+    it("sets the board at game start", function() {
       var array = [[1,1], [5,5]];
       game.setInitialGameState(array);
       expect(game.state[1][1]).toBe(1);
