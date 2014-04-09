@@ -28,9 +28,15 @@ Conway.loadTemplates = function() {
     title = val[0];
     $("<p>").text(title)
             .on("click", function() {
+              Conway.game.history = [];
+              Conway.game.stringHistory = [];
+              Conway.game.stepCount = 0;
+              Conway.game.gameStarted = false;
               Conway.game.gameOver = false;
+              Conway.game.userChanged = false;
               Conway.game.message = "";
-              Conway.game.oscPeriod = "";
+              Conway.game.oscPeriod = '';
+              clearInterval(Conway.Board.intervalId);
               array = val[1];
               Conway.game.setInitialGameState(val[1]);
               Conway.Board.render();
