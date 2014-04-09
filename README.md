@@ -13,7 +13,7 @@ by John Hinrichs
 
 ### Technologies Used
 
-* Javascript
+* JavaScript
 * JQuery-Rails 3.1.0
 * Ruby 2.1.0
 * Ruby on Rails 4.0.2
