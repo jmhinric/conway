@@ -28,6 +28,10 @@ Conway.loadTemplates = function() {
     title = val[0];
     $("<p>").text(title)
             .on("click", function() {
+              Conway.game.userChanged = true;
+              Conway.game.gameOver = false;
+              Conway.game.message = "";
+              Conway.game.oscPeriod = "";
               array = val[1];
               Conway.game.setInitialGameState(val[1]);
               Conway.Board.render();
