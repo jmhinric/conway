@@ -164,25 +164,26 @@ Conway.Game.prototype.setGameState = function(array, rows, cols) {
 };
 
 Conway.Game.prototype.stillLife = function() {
-  var strHi = this.stringHistory;
-  if (strHi[strHi.length - 1] === strHi[strHi.length - 2] && !this.userChanged) {
+  var lastIndex = this.stringHistory.length - 1;
+  if (this.stringHistory[lastIndex] === this.stringHistory[lastIndex - 1] && !this.userChanged) {
     this.gameOver = true;
     this.message = "Still Life";
   }
 };
 
 Conway.Game.prototype.oscillates = function () {
-  var oscPeriod = 0;
-  var strHist = this.stringHistory;
+  this.oscPeriod = 0;
+  var lastIndex = this.stringHistory.length - 1;
 
-  for(var i = 0; i < strHist.length - 2; i++) {
-    if(strHist[strHist.length-1] === strHist[i]) {this.oscPeriod = strHist.length - i - 1;}
+  for(var i = 0; i < lastIndex - 1; i++) {
+    if(this.stringHistory[lastIndex] === this.stringHistory[i]) {
+      this.oscPeriod = lastIndex - i;
+    }
   }
 
   if(this.oscPeriod > 0) {
     this.message = 'Period ' + this.oscPeriod + ' Oscillator';
-    return true;
-  } else { return false; }
+  }
 };
 
 Conway.Game.prototype.setInitialGameState = function(array) {
