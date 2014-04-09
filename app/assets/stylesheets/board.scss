@@ -1,3 +1,10 @@
+/*************************************/
+/*root*/
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans);
+body {
+  font-family: 'Droid Sans', sans-serif;
+}
+
 .page-wrapper {
   position: absolute;
 }
@@ -188,8 +195,8 @@ span.speed {
 .mini-cell {
   display: inline-block;
   margin-top: -8px;
-  height: 16px;
-  width: 16px;
+  height: 17px;
+  width: 17px;
   background: rgb(253, 245, 219);
   border: 1px solid black;
 }
@@ -213,4 +220,6 @@ span.speed {
 .alive {
   background: red;
 }
+
+/*******************************************/
 

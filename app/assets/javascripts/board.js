@@ -105,7 +105,7 @@ Conway.Board.cellListener = function(state, cell, cellClass) {
 Conway.Board.renderSavedState = function() {
   var newDiv = $("<div>");
   var state = Conway.game.userStates.length - 1;
-  var width = parseInt(Conway.Board.defaultCols, 0) * 18 + 20;
+  var width = parseInt(Conway.Board.defaultCols, 0) * 19 + 20;
   newDiv.attr("id", state)
         .addClass("temp-state")
         .css({"width": width});
