@@ -173,6 +173,7 @@ Conway.Game.prototype.stillLife = function() {
 
 Conway.Game.prototype.oscillates = function () {
   this.oscPeriod = 0;
+  this.message = '';
   var lastIndex = this.stringHistory.length - 1;
 
   for(var i = 0; i < lastIndex - 1; i++) {

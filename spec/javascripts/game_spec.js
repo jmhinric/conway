@@ -366,7 +366,7 @@ describe("Conway.Game", function() {
   });
 
   describe("#oscillates", function() {
-    xit("finds period 2 oscillators", function() {
+    it("finds period 2 oscillators", function() {
       game.state[2][2] = 1;
       game.state[3][2] = 1;
       game.state[4][2] = 1;
