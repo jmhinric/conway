@@ -1,0 +1,33 @@
+.user-form {
+  position: relative;
+  text-align: center;
+
+  .user-title {
+    padding-top: 20px;
+  }
+
+  form {
+    margin: 0 auto;
+    padding-top: 30px;
+    display: block;
+    text-align: center;
+
+    label {
+      display: block;
+      font-size: 1.3em;
+      padding: 5px;
+    }
+
+    input {
+      display: block;
+      margin: 0 auto;
+      margin-bottom: 15px;
+    }
+
+    input[type=submit] {
+      margin-top: 10px;
+      background: black;
+      color: white;
+    }
+  }
+}

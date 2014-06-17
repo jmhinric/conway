@@ -9,7 +9,7 @@ body {
   position: absolute;
 }
 
-button {
+button, input[type=submit] {
   border-radius: 7px;
   padding: 3px 8px;
   border: none;

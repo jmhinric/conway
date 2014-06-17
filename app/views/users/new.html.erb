@@ -1,13 +1,18 @@
-<%= form_for @user do |f| %>
+<main class="user-form">
 
-  <%= f.label :email %>
-  <%= f.email_field :email %>
+  <h2 class="user-title">Sign Up:</h2>
 
-  <%= f.label :password %>
-  <%= f.password_field :password %>
+  <%= form_for @user do |f| %>
 
-  <%= f.label :password_confirmation %>
-  <%= f.password_field :password_confirmation %>
+    <%= f.label :email %>
+    <%= f.email_field :email %>
 
-  <%= f.submit "Sign Up" %>
-<% end %>
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation %>
+
+    <%= f.submit "Sign Up" %>
+  <% end %>
+</main>
