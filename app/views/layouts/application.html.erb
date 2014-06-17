@@ -8,7 +8,12 @@
 </head>
 <body>
   <header>
-    <nav>
+    <a class="title" href="/">
+      <h2>
+        Conway's Game of Life Simulator
+      </h2>
+    </a>
+    <div class="links">
       <ul>
         <% if logged_in? %>
           <!-- <li><%# link_to <%# @user.email %>, edit_user_path(@user) %></li> -->
@@ -18,8 +23,8 @@
           <li><%= link_to "Log In","/login" %></li>
         <% end %>
       </ul>
-    </nav>
-  </header><br>
+    </div>
+  </header>
 
   <%= yield %>
 

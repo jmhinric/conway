@@ -1,6 +1,6 @@
 Conway::Application.routes.draw do
   
-  root 'users#index'
+  root 'welcome#index'
 
   resources :users, except: [:index]
 

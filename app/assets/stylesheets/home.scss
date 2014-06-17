@@ -9,88 +9,70 @@ body {
   position: absolute;
 }
 
+button {
+  border-radius: 7px;
+  padding: 3px 8px;
+  border: none;
+}
+
 .game {
-  width: 700px;
+  width: 55%;
   display: inline-block;
   float: left;
   padding-left: 100px;
-  /*border: 1px solid red;*/
+
+
+  .controls {
+    width: 350px;
+    margin: 0 auto;
+    margin-top: 50px;
+    color: white;
+
+    button {
+      margin-right: 3px;
+      display: inline-block;
+    }
+
+    .start {
+      float: left;
+      background: green;
+    }
+
+    .reverse {
+      background: orange;
+    }
+
+    .pause {
+      background: red;
+    }
+
+    .step-forward {
+      background: grey;
+    }
+
+    .step-back {
+      background: light-grey;
+    }
+    
+    .clear {
+      float: right;
+      background: blue;
+    }
+  }
+
 }
 
 .sidebar {
-  
-  width: 600px;
+  width: 35%;
   display: inline-block;
   float: right;
-  /*border: 1px solid blue;*/
-}
-
-header {
-  display: block;
-  background: black;
-  height: 50px;
-}
-
-header nav {
-  display: inline-block;
-  float: right;
-  padding-right: 60px;
-}
-
-nav li {
-  display: inline;
-  padding: 0px 10px;
-}
-
-nav a {
-  color: white;
 }
 
 h1 {
   text-align: center;
 }
 
-.controls {
-  width: 350px;
-  margin: 0 auto;
-  color: white;
-}
 
-button {
-  border-radius: 4px;
-}
-
-.start {
-  display: inline-block;
-  float: left;
-  background: green;
-}
-
-.reverse {
-  display: inline-block;
-  background: orange;
-}
-
-.pause {
-  display: inline-block;
-  background: red;
-}
-
-.clear {
-  display: inline-block;
-  float: right;
-  background: blue;
-}
-
-.step-forward {
-  display: inline-block;
-  background: grey;
-}
-
-.step-back {
-  display: inline-block;
-  background: light-grey;
-}
 
 .board-specs {
   width: 565px;
@@ -172,7 +154,6 @@ span.speed {
 
 .temp-states-wrapper {
   margin-bottom: 50px;
-  /*border: 1px solid red;*/
 
   h2 {
     margin-top: 30px;
@@ -184,11 +165,9 @@ span.speed {
   width: 600px;
   margin: 0 auto;
   display: inline-block;
-  /*border: 1px solid orange;*/
 }
 
 .temp-state {
-  /*border: 1px solid blue;*/
   margin: 20px auto;
 }
 
@@ -209,7 +188,6 @@ span.speed {
 .save {
   float: right;
   padding-right: 20px;
-  /*border: 1px solid red;*/
 
   .save-button {
     color: white;
@@ -222,4 +200,46 @@ span.speed {
 }
 
 /*******************************************/
+
+
+@media (max-width: 700px) {
+
+  a {
+    font-size: .9em;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  a {
+    font-size: .8em;
+  }
+
+}
+
+@media (max-width: 500px) {
+
+  a {
+    font-size: .7em;
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
