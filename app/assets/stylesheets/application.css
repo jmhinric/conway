@@ -10,6 +10,7 @@
  *
  *= require header
  *= require home
+ *= require user
  *= require_self
  *= require_tree .
  */
