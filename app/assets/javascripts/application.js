@@ -18,7 +18,6 @@
 //= require state
 //= require game
 //= require board
-//= require init
 
 // application namespace
 window.Conway = {
